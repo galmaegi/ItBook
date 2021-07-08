@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sendbirdapp.R
-import com.example.sendbirdapp.databinding.ItemNewBinding
+import com.example.sendbirdapp.databinding.ItemBookBinding
 
 class NewBooksAdapter : ListAdapter<NewItem, NewBooksViewHolder>(NewBooksDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewBooksViewHolder {
         return NewBooksViewHolder(
-            ItemNewBinding.inflate(
+            ItemBookBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -35,7 +35,7 @@ object NewBooksDiffCallback : DiffUtil.ItemCallback<NewItem>() {
 }
 
 class NewBooksViewHolder(
-    private val binding: ItemNewBinding
+    private val binding: ItemBookBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     private val context: Context = binding.root.context
 

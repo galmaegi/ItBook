@@ -1,35 +1,71 @@
 package com.example.sendbirdapp
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.example.sendbirdapp.databinding.ActivityMainBinding
+import com.example.sendbirdapp.ui.bookmark.BookmarkFragment
+import com.example.sendbirdapp.ui.new.NewFragment
+import com.example.sendbirdapp.ui.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val pageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            super.onPageSelected(position)
+            binding.navView.menu.getItem(position).isChecked = true
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.viewpager.adapter = ActivityFragmentStateAdapter(this)
+        binding.viewpager.registerOnPageChangeCallback(pageChangeCallback)
+        binding.navView.setOnItemSelectedListener {
+            when(it.itemId) {
+                R.id.navigation_new -> {
+                    binding.viewpager.currentItem = 0
+                }
+                R.id.navigation_search -> {
+                    binding.viewpager.currentItem = 1
+                }
+                R.id.navigation_bookmark -> {
+                    binding.viewpager.currentItem = 2
+                }
+                else -> {
+                    return@setOnItemSelectedListener false
+                }
+            }
+            return@setOnItemSelectedListener true
+        }
+    }
+}
 
-        val navView: BottomNavigationView = binding.navView
+class ActivityFragmentStateAdapter(fragmentActivity: FragmentActivity) :
+    FragmentStateAdapter(fragmentActivity) {
 
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+    override fun getItemCount(): Int = 3
+
+    override fun createFragment(position: Int): Fragment {
+
+        return when (position) {
+            0 -> NewFragment()
+            1 -> SearchFragment()
+            else -> BookmarkFragment()
+        }
     }
 }

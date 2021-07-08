@@ -34,11 +34,9 @@ class NewFragment : Fragment() {
 
         _binding = FragmentNewBinding.inflate(inflater, container, false)
 
-
-
         val adapter = NewBooksAdapter()
-        binding.newList.adapter = adapter
-        binding.newList.layoutManager = LinearLayoutManager(context)
+        binding.list.adapter = adapter
+        binding.list.layoutManager = LinearLayoutManager(context)
 
         newViewModel.newItemList.observe(viewLifecycleOwner, {
             adapter.submitList(it)
@@ -50,7 +48,6 @@ class NewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CoroutineScope(Dispatchers.IO).launch {
-            Log.d(this@NewFragment.tag, "sendbird hello")
             newViewModel.getNew().collect {
                 Log.d(this@NewFragment.tag, "${it}")
                 withContext(Dispatchers.Main) {
