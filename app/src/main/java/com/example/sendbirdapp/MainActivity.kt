@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewpager.adapter = ActivityFragmentStateAdapter(this)
         binding.viewpager.registerOnPageChangeCallback(pageChangeCallback)
         binding.navView.setOnItemSelectedListener {
-            when(it.itemId) {
+            when (it.itemId) {
                 R.id.navigation_new -> {
                     binding.viewpager.currentItem = 0
                 }

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.sendbirdapp.R
 import com.example.sendbirdapp.databinding.ItemBookBinding
 import com.example.sendbirdapp.databinding.ItemFooterBinding
+import com.example.sendbirdapp.ui.detail.DetailActivity.Companion.getIntent
 import com.example.sendbirdapp.ui.search.model.BookItem
 import com.example.sendbirdapp.ui.search.model.SearchItem
 
@@ -21,6 +22,7 @@ class SearchListAdapter :
         const val TYPE_NORMAL = 1
         const val TYPE_FOOTER = 2
     }
+
     var onListReachedEndListener: (() -> Unit) = { }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -108,5 +110,9 @@ class SearchViewHolder(
             .load(item.image)
             .placeholder(R.drawable.loading_example)
             .into(binding.image)
+
+        binding.root.setOnClickListener {
+            context.startActivity(context.getIntent(item.isbn13))
+        }
     }
 }

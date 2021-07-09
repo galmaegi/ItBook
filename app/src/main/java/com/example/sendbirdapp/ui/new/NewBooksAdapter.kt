@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.sendbirdapp.R
 import com.example.sendbirdapp.databinding.ItemBookBinding
+import com.example.sendbirdapp.ui.detail.DetailActivity.Companion.getIntent
 
 class NewBooksAdapter : ListAdapter<NewItem, NewBooksViewHolder>(NewBooksDiffCallback) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewBooksViewHolder {
@@ -49,5 +50,9 @@ class NewBooksViewHolder(
             .load(item.image)
             .placeholder(R.drawable.loading_example)
             .into(binding.image)
+
+        binding.root.setOnClickListener {
+            context.startActivity(context.getIntent(item.isbn13))
+        }
     }
 }

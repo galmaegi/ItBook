@@ -20,7 +20,6 @@ import kotlinx.coroutines.withContext
 class SearchViewModel : ViewModel() {
 
     private val _searchBookList = MutableLiveData<List<SearchItem>>()
-    private val repository = ItBookRepository()
     private var currentJob: Job? = null
     val searchBookList: LiveData<List<SearchItem>> = _searchBookList
     var searchModel: SearchModel? = null
@@ -73,5 +72,5 @@ class SearchViewModel : ViewModel() {
     }
 
     private suspend fun searchBooks(query: String, page: Int = 0) =
-        repository.searchBooks(query, page)
+        ItBookRepository.searchBooks(query, page)
 }

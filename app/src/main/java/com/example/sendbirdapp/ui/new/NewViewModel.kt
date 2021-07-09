@@ -8,7 +8,6 @@ import com.example.sendbirdapp.network.ItBookRepository
 
 class NewViewModel : ViewModel() {
 
-    private val repository = ItBookRepository()
     private val _newItemList = MutableLiveData<List<NewItem>>()
     val newItemList: LiveData<List<NewItem>> = _newItemList
 
@@ -17,5 +16,5 @@ class NewViewModel : ViewModel() {
         _newItemList.value = newItemList
     }
 
-    suspend fun getNew() = repository.getNew()
+    suspend fun getNew() = ItBookRepository.getNew()
 }

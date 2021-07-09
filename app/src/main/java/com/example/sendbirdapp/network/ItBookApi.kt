@@ -1,5 +1,6 @@
 package com.example.sendbirdapp.network
 
+import com.example.sendbirdapp.network.model.BooksResponse
 import com.example.sendbirdapp.network.model.NewResponse
 import com.example.sendbirdapp.network.model.SearchResponse
 import okhttp3.OkHttpClient
@@ -26,7 +27,7 @@ interface ItBookApi {
     @GET("books/{isbn13}")
     fun getBooks(
         @Path("isbn13") isbn13: String?
-    )
+    ): Call<BooksResponse?>?
 
     companion object {
         private const val BASE_URL = "https://api.itbook.store/1.0/"
