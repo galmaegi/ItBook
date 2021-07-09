@@ -33,22 +33,34 @@ class SearchFragment : Fragment() {
             ViewModelProvider(this).get(SearchViewModel::class.java)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        val adapter = SearchListAdapter()
-        adapter.onListReachedEndListener = {
+        val searchListAdapter = SearchListAdapter()
+        searchListAdapter.onListReachedEndListener = {
             fetchMoreSearchResult()
         }
-        binding.list.adapter = adapter
-        val layoutManager = LinearLayoutManager(context)
-        binding.list.layoutManager = layoutManager
-        binding.list.addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
-        binding.list.addItemDecoration(VerticalSpaceItemDecoration.DEFAULT_DECORATION)
+        binding.searchList.adapter = searchListAdapter
+        val searchLayoutManager = LinearLayoutManager(context)
+        binding.searchList.layoutManager = searchLayoutManager
+        binding.searchList.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                searchLayoutManager.orientation
+            )
+        )
+        binding.searchList.addItemDecoration(VerticalSpaceItemDecoration.DEFAULT_DECORATION)
+
+        val historyListAdapter = HistoryListAdapter(searchViewModel)
+        binding.historyList.adapter = historyListAdapter
+        val historyLayoutManager = LinearLayoutManager(context).apply {
+            orientation = RecyclerView.HORIZONTAL
+        }
+        binding.historyList.layoutManager = historyLayoutManager
 
         binding.searchButton.setOnClickListener {
             onSearchEvent(binding.searchText.text.toString())
         }
 
         binding.searchText.setOnEditorActionListener { v, actionId, event ->
-            var handled = false;
+            var handled = false
             if ((actionId == EditorInfo.IME_ACTION_DONE) ||
                 ((event.keyCode == KeyEvent.KEYCODE_ENTER) &&
                         (event.action == KeyEvent.ACTION_DOWN))
@@ -60,9 +72,19 @@ class SearchFragment : Fragment() {
             handled
         }
 
-        searchViewModel.searchBookList.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
-        })
+        searchViewModel.historyList.observe(viewLifecycleOwner) {
+            historyListAdapter.submitList(it.reversed())
+        }
+
+        searchViewModel.searchBookList.observe(viewLifecycleOwner) {
+            searchListAdapter.submitList(it)
+        }
+
+        searchViewModel.searchText.observe(viewLifecycleOwner) {
+            searchViewModel.addHistory(it)
+            searchViewModel.requestSearch(it)
+            binding.searchText.setText(it)
+        }
 
         return binding.root
     }
@@ -77,6 +99,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun onSearchEvent(query: String) {
+        searchViewModel.addHistory(query)
         searchViewModel.requestSearch(query)
     }
 

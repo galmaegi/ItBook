@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.viewpager.adapter = ActivityFragmentStateAdapter(this)
         binding.viewpager.registerOnPageChangeCallback(pageChangeCallback)
+        binding.viewpager.isUserInputEnabled = false
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_new -> {

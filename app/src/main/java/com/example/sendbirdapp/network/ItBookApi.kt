@@ -3,6 +3,7 @@ package com.example.sendbirdapp.network
 import com.example.sendbirdapp.network.model.BooksResponse
 import com.example.sendbirdapp.network.model.NewResponse
 import com.example.sendbirdapp.network.model.SearchResponse
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
@@ -10,6 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Path
+import java.util.concurrent.TimeUnit
 
 interface ItBookApi {
     // Get new releases books
@@ -33,11 +35,16 @@ interface ItBookApi {
         private const val BASE_URL = "https://api.itbook.store/1.0/"
         fun create(): ItBookApi {
 
-            val client = OkHttpClient.Builder().addNetworkInterceptor(
-                HttpLoggingInterceptor().apply {
-                    setLevel(HttpLoggingInterceptor.Level.BODY)
-                }
-            ).build()
+            val client = OkHttpClient.Builder()
+                .addNetworkInterceptor(
+                    HttpLoggingInterceptor().apply {
+                        setLevel(HttpLoggingInterceptor.Level.BODY)
+                    }
+                )
+                // TODO: 2021/07/10 timeout handling
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build()
             return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
