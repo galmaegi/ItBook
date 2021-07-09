@@ -5,21 +5,21 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_new">
 
-    <fragment
-        android:id="@+id/navigation_new"
-        android:name="com.example.sendbirdapp.ui.new.NewFragment"
-        android:label="@string/title_new"
-        tools:layout="@layout/fragment_new" />
+  <fragment
+      android:id="@+id/navigation_new"
+      android:name="com.example.sendbirdapp.ui.new.NewFragment"
+      android:label="@string/title_new"
+      tools:layout="@layout/fragment_new" />
 
-    <fragment
-        android:id="@+id/navigation_search"
-        android:name="com.example.sendbirdapp.ui.search.SearchFragment"
-        android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+  <fragment
+      android:id="@+id/navigation_search"
+      android:name="com.example.sendbirdapp.ui.search.SearchFragment"
+      android:label="@string/title_search"
+      tools:layout="@layout/fragment_search" />
 
-    <fragment
-        android:id="@+id/navigation_bookmark"
-        android:name="com.example.sendbirdapp.ui.bookmark.BookmarkFragment"
-        android:label="@string/title_bookmark"
-        tools:layout="@layout/fragment_bookmark" />
+  <fragment
+      android:id="@+id/navigation_bookmark"
+      android:name="com.example.sendbirdapp.ui.bookmark.BookmarkFragment"
+      android:label="@string/title_bookmark"
+      tools:layout="@layout/fragment_bookmark" />
 </navigation>

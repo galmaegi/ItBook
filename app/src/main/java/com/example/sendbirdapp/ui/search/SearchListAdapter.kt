@@ -108,6 +108,7 @@ class SearchViewHolder(
         binding.url.text = item.url
         Glide.with(context)
             .load(item.image)
+            .fitCenter()
             .placeholder(R.drawable.loading_example)
             .into(binding.image)
 

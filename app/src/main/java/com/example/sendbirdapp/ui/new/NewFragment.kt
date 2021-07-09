@@ -7,7 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sendbirdapp.common.VerticalSpaceItemDecoration
 import com.example.sendbirdapp.databinding.FragmentNewBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +38,10 @@ class NewFragment : Fragment() {
 
         val adapter = NewBooksAdapter()
         binding.list.adapter = adapter
-        binding.list.layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
+        binding.list.layoutManager = layoutManager
+        binding.list.addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
+        binding.list.addItemDecoration(VerticalSpaceItemDecoration.DEFAULT_DECORATION)
 
         newViewModel.newItemList.observe(viewLifecycleOwner, {
             adapter.submitList(it)

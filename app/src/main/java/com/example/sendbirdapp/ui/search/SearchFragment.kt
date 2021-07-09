@@ -8,8 +8,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sendbirdapp.common.VerticalSpaceItemDecoration
 import com.example.sendbirdapp.databinding.FragmentSearchBinding
 import kotlinx.coroutines.*
 
@@ -36,12 +38,10 @@ class SearchFragment : Fragment() {
             fetchMoreSearchResult()
         }
         binding.list.adapter = adapter
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-            }
-        })
+        val layoutManager = LinearLayoutManager(context)
+        binding.list.layoutManager = layoutManager
+        binding.list.addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
+        binding.list.addItemDecoration(VerticalSpaceItemDecoration.DEFAULT_DECORATION)
 
         binding.searchButton.setOnClickListener {
             onSearchEvent(binding.searchText.text.toString())
@@ -74,7 +74,6 @@ class SearchFragment : Fragment() {
             }
             searchViewModel.requestSearch(it.query, it.currentPage + 1, isSearch = false)
         }
-
     }
 
     private fun onSearchEvent(query: String) {
