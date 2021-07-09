@@ -1,22 +1,15 @@
 package com.example.sendbirdapp
 
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sendbirdapp.databinding.ActivityMainBinding
 import com.example.sendbirdapp.ui.bookmark.BookmarkFragment
 import com.example.sendbirdapp.ui.new.NewFragment
 import com.example.sendbirdapp.ui.search.SearchFragment
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
