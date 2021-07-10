@@ -8,9 +8,11 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.sendbirdapp.databinding.ActivityMainBinding
 import com.example.sendbirdapp.ui.bookmark.BookmarkFragment
-import com.example.sendbirdapp.ui.new.NewFragment
+import com.example.sendbirdapp.ui.newitem.NewFragment
 import com.example.sendbirdapp.ui.search.SearchFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding

@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sendbirdapp.common.HISTORY_SPACE_DECORATION
 import com.example.sendbirdapp.common.SEARCH_SPACE_DECORATION
-import com.example.sendbirdapp.common.VerticalSpaceItemDecoration
 import com.example.sendbirdapp.databinding.FragmentSearchBinding
+import com.example.sendbirdapp.repository.db.model.SearchHistory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private lateinit var searchViewModel: SearchViewModel
@@ -25,6 +27,8 @@ class SearchFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private val searchListAdapter = SearchListAdapter()
+    private val historyListAdapter = HistoryListAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,29 +38,39 @@ class SearchFragment : Fragment() {
         searchViewModel =
             ViewModelProvider(this).get(SearchViewModel::class.java)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        initUi()
+        initObserver()
+        return binding.root
+    }
 
-        val searchListAdapter = SearchListAdapter()
-        searchListAdapter.onListReachedEndListener = {
-            fetchMoreSearchResult()
+    private fun initUi() {
+        with(binding.searchList) {
+            adapter = searchListAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            addItemDecoration(SEARCH_SPACE_DECORATION)
+            searchListAdapter.onListReachedEndListener = {
+                fetchMoreSearchResult()
+            }
         }
-        binding.searchList.adapter = searchListAdapter
-        val searchLayoutManager = LinearLayoutManager(context)
-        binding.searchList.layoutManager = searchLayoutManager
-        binding.searchList.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                searchLayoutManager.orientation
-            )
-        )
-        binding.searchList.addItemDecoration(SEARCH_SPACE_DECORATION)
 
-        val historyListAdapter = HistoryListAdapter(searchViewModel)
-        binding.historyList.adapter = historyListAdapter
-        val historyLayoutManager = LinearLayoutManager(context).apply {
-            orientation = RecyclerView.HORIZONTAL
+        with(binding.historyList) {
+            adapter = historyListAdapter
+            layoutManager = LinearLayoutManager(context).apply {
+                orientation = RecyclerView.HORIZONTAL
+            }
+            addItemDecoration(HISTORY_SPACE_DECORATION)
+            historyListAdapter.historyListEventListener = object : HistoryListEventListener {
+                override fun onSelectHistory(query: SearchHistory) {
+                    searchViewModel.onSelectHistory(query)
+                }
+
+                override fun removeHistory(query: SearchHistory) {
+                    searchViewModel.removeHistory(query)
+                }
+            }
         }
-        binding.historyList.layoutManager = historyLayoutManager
-        binding.historyList.addItemDecoration(HISTORY_SPACE_DECORATION)
+
 
         binding.searchButton.setOnClickListener {
             onSearchEvent(binding.searchText.text.toString())
@@ -71,12 +85,15 @@ class SearchFragment : Fragment() {
                 onSearchEvent(v.text.toString())
                 handled = true
             }
-
             handled
         }
+    }
 
-        searchViewModel.historyList.observe(viewLifecycleOwner) {
-            historyListAdapter.submitList(it.reversed())
+    private fun initObserver() {
+        searchViewModel.historyList.observe(viewLifecycleOwner) { searchHistorySet ->
+            historyListAdapter.submitList(searchHistorySet.sortedByDescending {
+                it.lastAccessedTime
+            })
         }
 
         searchViewModel.searchBookList.observe(viewLifecycleOwner) {
@@ -88,8 +105,6 @@ class SearchFragment : Fragment() {
             searchViewModel.requestSearch(it)
             binding.searchText.setText(it)
         }
-
-        return binding.root
     }
 
     private fun fetchMoreSearchResult() {

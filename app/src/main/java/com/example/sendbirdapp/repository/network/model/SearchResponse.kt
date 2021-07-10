@@ -1,4 +1,4 @@
-package com.example.sendbirdapp.network.model
+package com.example.sendbirdapp.repository.network.model
 
 import com.example.sendbirdapp.ui.search.model.BookItem
 

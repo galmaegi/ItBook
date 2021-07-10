@@ -1,12 +1,17 @@
-package com.example.sendbirdapp.ui.new
+package com.example.sendbirdapp.ui.newitem
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.sendbirdapp.network.ItBookRepository
+import com.example.sendbirdapp.repository.ItBookRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class NewViewModel : ViewModel() {
+@HiltViewModel
+class NewViewModel @Inject constructor(
+    private val itBookRepository: ItBookRepository
+) : ViewModel() {
 
     private val _newItemList = MutableLiveData<List<NewItem>>()
     val newItemList: LiveData<List<NewItem>> = _newItemList
@@ -16,5 +21,5 @@ class NewViewModel : ViewModel() {
         _newItemList.value = newItemList
     }
 
-    suspend fun getNew() = ItBookRepository.getNew()
+    suspend fun getNew() = itBookRepository.getNew()
 }

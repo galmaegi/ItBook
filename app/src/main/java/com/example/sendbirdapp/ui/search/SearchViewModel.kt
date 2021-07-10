@@ -5,30 +5,32 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.sendbirdapp.network.ItBookRepository
-import com.example.sendbirdapp.network.model.SearchResponse
+import androidx.lifecycle.asLiveData
+import com.example.sendbirdapp.repository.ItBookRepository
+import com.example.sendbirdapp.repository.db.model.SearchHistory
+import com.example.sendbirdapp.repository.network.model.SearchResponse
 import com.example.sendbirdapp.ui.search.model.LoadingItem
 import com.example.sendbirdapp.ui.search.model.SearchItem
 import com.example.sendbirdapp.ui.search.model.SearchModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-interface HistoryControl {
-    fun onSelectHistory(query: String)
-    fun removeHistory(query: String)
-}
-
-class SearchViewModel : ViewModel(), HistoryControl {
+@HiltViewModel
+class SearchViewModel @Inject internal constructor(
+    private val itBookRepository: ItBookRepository
+) : ViewModel() {
     private val _searchBookList = MutableLiveData<List<SearchItem>>()
-    private val _historyList = MutableLiveData<Set<String>>()
+    private val _historyList = itBookRepository.getAllSearchHistories().asLiveData()
     private val _searchText = MutableLiveData<String>()
     private var currentJob: Job? = null
     val searchBookList: LiveData<List<SearchItem>> = _searchBookList
-    val historyList: LiveData<Set<String>> = _historyList
+    val historyList: LiveData<List<SearchHistory>> = _historyList
     val searchText: LiveData<String> = _searchText
     var searchModel: SearchModel? = null
 
@@ -84,25 +86,25 @@ class SearchViewModel : ViewModel(), HistoryControl {
     }
 
     private suspend fun searchBooks(query: String, page: Int = 0) =
-        ItBookRepository.searchBooks(query, page)
+        itBookRepository.searchBooks(query, page)
 
     fun addHistory(query: String) {
-        _historyList.value = _historyList.value?.toMutableSet()?.apply {
-            if (contains(query)) {
-                remove(query)
-            }
-            add(query)
-        } ?: setOf(query)
+        val history = SearchHistory(query, System.currentTimeMillis())
+        CoroutineScope(Dispatchers.IO).launch {
+            itBookRepository.insertSearchHistory(history)
+        }
     }
 
-    override fun onSelectHistory(query: String) {
-        _searchText.value = query
+    fun onSelectHistory(history: SearchHistory) {
+        _searchText.value = history.query
     }
 
-    override fun removeHistory(query: String) {
-        _historyList.value = _historyList.value?.toMutableSet()?.apply {
-            if (contains(query)) {
-                remove(query)
+    fun removeHistory(history: SearchHistory) {
+        _historyList.value?.firstOrNull {
+            it.query == history.query
+        }?.let {
+            CoroutineScope(Dispatchers.IO).launch {
+                itBookRepository.deleteSearchHistory(it)
             }
         }
     }

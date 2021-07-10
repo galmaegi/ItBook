@@ -1,4 +1,4 @@
-package com.example.sendbirdapp.ui.new
+package com.example.sendbirdapp.ui.newitem
 
 import android.content.Context
 import android.view.LayoutInflater

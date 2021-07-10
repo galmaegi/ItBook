@@ -1,9 +1,8 @@
-package com.example.sendbirdapp.network
+package com.example.sendbirdapp.repository.network
 
-import com.example.sendbirdapp.network.model.BooksResponse
-import com.example.sendbirdapp.network.model.NewResponse
-import com.example.sendbirdapp.network.model.SearchResponse
-import okhttp3.Interceptor
+import com.example.sendbirdapp.repository.network.model.BooksResponse
+import com.example.sendbirdapp.repository.network.model.NewResponse
+import com.example.sendbirdapp.repository.network.model.SearchResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call

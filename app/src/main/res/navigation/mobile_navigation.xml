@@ -7,7 +7,7 @@
 
   <fragment
       android:id="@+id/navigation_new"
-      android:name="com.example.sendbirdapp.ui.new.NewFragment"
+      android:name="com.example.sendbirdapp.ui.newitem.NewFragment"
       android:label="@string/title_new"
       tools:layout="@layout/fragment_new" />
 
