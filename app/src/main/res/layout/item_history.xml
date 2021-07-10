@@ -4,19 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="@drawable/item_history_background"
     android:padding="10dp">
 
   <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/history"
-      android:layout_width="100dp"
+      android:id="@+id/history_text"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:ellipsize="end"
+      android:maxWidth="100dp"
       android:maxLines="1"
       android:textAlignment="textStart"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constrainedWidth="true"
       app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toLeftOf="@id/delete_button"
+      app:layout_constraintTop_toTopOf="parent"
       tools:text="ABCDEFGHIJKLMNOP" />
+
+  <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/delete_button"
+      android:layout_width="20dp"
+      android:layout_height="20dp"
+      android:padding="2dp"
+      android:src="@drawable/ic_delete_history"
+      app:layout_constrainedWidth="true"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toRightOf="@id/history_text"
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,8 +14,19 @@ class VerticalSpaceItemDecoration(
     ) {
         outRect.bottom = verticalSpaceHeight
     }
-
-    companion object {
-        val DEFAULT_DECORATION by lazy { VerticalSpaceItemDecoration(20) }
-    }
 }
+
+class HorizontalSpaceItemDecoration(
+    private val horizontalSpaceWidth: Int
+) : RecyclerView.ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect, view: View, parent: RecyclerView,
+        state: RecyclerView.State
+    ) {
+        outRect.right = horizontalSpaceWidth
+    }
+
+}
+
+val SEARCH_SPACE_DECORATION by lazy { VerticalSpaceItemDecoration(20) }
+val HISTORY_SPACE_DECORATION by lazy { HorizontalSpaceItemDecoration(10) }

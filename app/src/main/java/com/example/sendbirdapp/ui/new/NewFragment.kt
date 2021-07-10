@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sendbirdapp.common.SEARCH_SPACE_DECORATION
 import com.example.sendbirdapp.common.VerticalSpaceItemDecoration
 import com.example.sendbirdapp.databinding.FragmentNewBinding
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +42,7 @@ class NewFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         binding.list.layoutManager = layoutManager
         binding.list.addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
-        binding.list.addItemDecoration(VerticalSpaceItemDecoration.DEFAULT_DECORATION)
+        binding.list.addItemDecoration(SEARCH_SPACE_DECORATION)
 
         newViewModel.newItemList.observe(viewLifecycleOwner, {
             adapter.submitList(it)

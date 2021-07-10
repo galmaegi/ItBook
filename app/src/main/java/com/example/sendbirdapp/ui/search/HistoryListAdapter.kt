@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.sendbirdapp.databinding.ItemHistoryBinding
 
 class HistoryListAdapter(
-    private val searchTextControl: SearchTextControl
+    private val historyControl: HistoryControl
 ) : ListAdapter<String, HistoryItemViewHolder>(HistoryDiffCallback) {
     private var recyclerView: RecyclerView? = null
 
@@ -20,7 +20,7 @@ class HistoryListAdapter(
                 parent,
                 false
             ),
-            searchTextControl
+            historyControl
         )
 
     override fun onBindViewHolder(holder: HistoryItemViewHolder, position: Int) {
@@ -52,12 +52,15 @@ object HistoryDiffCallback : DiffUtil.ItemCallback<String>() {
 
 class HistoryItemViewHolder(
     private val binding: ItemHistoryBinding,
-    private val searchTextControl: SearchTextControl
+    private val historyControl: HistoryControl
 ) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(history: String) {
-        binding.history.text = history
+        binding.historyText.text = history
         binding.root.setOnClickListener {
-            searchTextControl.setSearchText(history)
+            historyControl.onSelectHistory(history)
+        }
+        binding.deleteButton.setOnClickListener {
+            historyControl.removeHistory(history)
         }
     }
 }

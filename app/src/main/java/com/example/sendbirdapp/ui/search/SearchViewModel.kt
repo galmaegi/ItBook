@@ -17,11 +17,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-interface SearchTextControl {
-    fun setSearchText(query: String)
+interface HistoryControl {
+    fun onSelectHistory(query: String)
+    fun removeHistory(query: String)
 }
 
-class SearchViewModel : ViewModel(), SearchTextControl {
+class SearchViewModel : ViewModel(), HistoryControl {
     private val _searchBookList = MutableLiveData<List<SearchItem>>()
     private val _historyList = MutableLiveData<Set<String>>()
     private val _searchText = MutableLiveData<String>()
@@ -94,7 +95,15 @@ class SearchViewModel : ViewModel(), SearchTextControl {
         } ?: setOf(query)
     }
 
-    override fun setSearchText(query: String) {
+    override fun onSelectHistory(query: String) {
         _searchText.value = query
+    }
+
+    override fun removeHistory(query: String) {
+        _historyList.value = _historyList.value?.toMutableSet()?.apply {
+            if (contains(query)) {
+                remove(query)
+            }
+        }
     }
 }

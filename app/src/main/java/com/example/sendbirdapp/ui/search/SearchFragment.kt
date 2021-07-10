@@ -11,6 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sendbirdapp.common.HISTORY_SPACE_DECORATION
+import com.example.sendbirdapp.common.SEARCH_SPACE_DECORATION
 import com.example.sendbirdapp.common.VerticalSpaceItemDecoration
 import com.example.sendbirdapp.databinding.FragmentSearchBinding
 import kotlinx.coroutines.*
@@ -46,7 +48,7 @@ class SearchFragment : Fragment() {
                 searchLayoutManager.orientation
             )
         )
-        binding.searchList.addItemDecoration(VerticalSpaceItemDecoration.DEFAULT_DECORATION)
+        binding.searchList.addItemDecoration(SEARCH_SPACE_DECORATION)
 
         val historyListAdapter = HistoryListAdapter(searchViewModel)
         binding.historyList.adapter = historyListAdapter
@@ -54,6 +56,7 @@ class SearchFragment : Fragment() {
             orientation = RecyclerView.HORIZONTAL
         }
         binding.historyList.layoutManager = historyLayoutManager
+        binding.historyList.addItemDecoration(HISTORY_SPACE_DECORATION)
 
         binding.searchButton.setOnClickListener {
             onSearchEvent(binding.searchText.text.toString())
