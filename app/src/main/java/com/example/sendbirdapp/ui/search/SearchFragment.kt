@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.sendbirdapp.common.BOOK_SPACE_DECORATION
 import com.example.sendbirdapp.common.HISTORY_SPACE_DECORATION
-import com.example.sendbirdapp.common.SEARCH_SPACE_DECORATION
 import com.example.sendbirdapp.databinding.FragmentSearchBinding
 import com.example.sendbirdapp.repository.db.model.SearchHistory
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,8 +46,7 @@ class SearchFragment : Fragment() {
         with(binding.searchList) {
             adapter = searchListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
-            addItemDecoration(SEARCH_SPACE_DECORATION)
+            addItemDecoration(BOOK_SPACE_DECORATION)
             searchListAdapter.onListReachedEndListener = {
                 fetchMoreSearchResult()
             }

@@ -8,6 +8,6 @@ import javax.inject.Inject
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val itBookRepository: ItBookRepository
-): ViewModel() {
+) : ViewModel() {
     suspend fun getBooks(isbn13: String) = itBookRepository.getBooks(isbn13)
 }

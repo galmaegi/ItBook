@@ -28,5 +28,5 @@ class HorizontalSpaceItemDecoration(
 
 }
 
-val SEARCH_SPACE_DECORATION by lazy { VerticalSpaceItemDecoration(20) }
+val BOOK_SPACE_DECORATION by lazy { VerticalSpaceItemDecoration(20) }
 val HISTORY_SPACE_DECORATION by lazy { HorizontalSpaceItemDecoration(10) }

@@ -39,7 +39,8 @@ class ItBookRepository @Inject constructor(private val searchHistoryDao: SearchH
         }
     }
 
-    fun getAllSearchHistories(): Flow<List<SearchHistory>> = searchHistoryDao.getAllSearchHistories()
+    fun getAllSearchHistories(): Flow<List<SearchHistory>> =
+        searchHistoryDao.getAllSearchHistories()
 
     suspend fun insertSearchHistory(searchHistory: SearchHistory) {
         searchHistoryDao.insertSearchHistory(searchHistory)
