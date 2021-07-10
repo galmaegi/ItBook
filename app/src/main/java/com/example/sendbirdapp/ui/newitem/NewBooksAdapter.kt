@@ -2,6 +2,7 @@ package com.example.sendbirdapp.ui.newitem
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -41,16 +42,32 @@ class NewBooksViewHolder(
     private val context: Context = binding.root.context
 
     fun onBind(item: NewItem) {
-        binding.title.text = item.title
-        binding.subtitle.text = item.subtitle
-        binding.isbn13.text = item.isbn13
-        binding.price.text = item.price
-        binding.url.text = item.url
         Glide.with(context)
             .load(item.image)
             .fitCenter()
             .placeholder(R.drawable.loading_example)
             .into(binding.image)
+
+        binding.groupTitle.visibility = item.title.takeUnless { it.isNullOrEmpty() }?.let {
+            binding.title.text = it
+            View.VISIBLE
+        } ?: View.GONE
+        binding.groupSubtitle.visibility = item.subtitle.takeUnless { it.isNullOrEmpty() }?.let {
+            binding.subtitle.text = it
+            View.VISIBLE
+        } ?: View.GONE
+        binding.groupIsbn13.visibility = item.isbn13.takeUnless { it.isNullOrEmpty() }?.let {
+            binding.isbn13.text = it
+            View.VISIBLE
+        } ?: View.GONE
+        binding.groupPrice.visibility = item.price.takeUnless { it.isNullOrEmpty() }?.let {
+            binding.price.text = it
+            View.VISIBLE
+        } ?: View.GONE
+        binding.groupUrl.visibility = item.url.takeUnless { it.isNullOrEmpty() }?.let {
+            binding.url.text = it
+            View.VISIBLE
+        } ?: View.GONE
 
         binding.root.setOnClickListener {
             context.startActivity(context.getIntent(item.isbn13))

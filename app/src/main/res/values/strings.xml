@@ -3,4 +3,18 @@
   <string name="title_new">New</string>
   <string name="title_search">Search</string>
   <string name="title_bookmark">Bookmark</string>
+  <string name="image_label_string">Image</string>
+  <string name="title_label_string">Title</string>
+  <string name="subtitle_label_string">Subtitle</string>
+  <string name="authors_label_string">Authors</string>
+  <string name="publisher_label_string">Publisher</string>
+  <string name="isbn10_label_string">Isbn10</string>
+  <string name="isbn13_label_string">Isbn13</string>
+  <string name="pages_label_string">Pages</string>
+  <string name="year_label_string">Year</string>
+  <string name="rating_label_string">Rating</string>
+  <string name="desc_label_string">Desc</string>
+  <string name="price_label_string">Price</string>
+  <string name="url_label_string">Url</string>
+  <string name="pdf_label_string">Pdf</string>
 </resources>
