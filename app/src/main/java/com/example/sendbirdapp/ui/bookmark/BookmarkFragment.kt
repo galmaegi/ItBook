@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.sendbirdapp.common.BOOK_SPACE_DECORATION
 import com.example.sendbirdapp.databinding.FragmentBookmarkBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,6 +28,16 @@ class BookmarkFragment : Fragment() {
     ): View {
 
         _binding = FragmentBookmarkBinding.inflate(inflater, container, false)
+
+        val adapter = BookmarkAdapter()
+        binding.list.adapter = adapter
+        val layoutManager = LinearLayoutManager(context)
+        binding.list.layoutManager = layoutManager
+        binding.list.addItemDecoration(BOOK_SPACE_DECORATION)
+
+        bookmarkViewModel.bookmarkList.observe(viewLifecycleOwner, {
+            adapter.submitList(it)
+        })
 
         return binding.root
     }
