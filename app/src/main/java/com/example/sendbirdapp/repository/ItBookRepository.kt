@@ -1,6 +1,8 @@
 package com.example.sendbirdapp.repository
 
-import com.example.sendbirdapp.repository.db.SearchHistoryDao
+import com.example.sendbirdapp.repository.db.dao.BookmarkDao
+import com.example.sendbirdapp.repository.db.dao.SearchHistoryDao
+import com.example.sendbirdapp.repository.db.model.Bookmark
 import com.example.sendbirdapp.repository.db.model.SearchHistory
 import com.example.sendbirdapp.repository.network.ItBookApi
 import com.example.sendbirdapp.repository.network.model.BooksResponse
@@ -12,7 +14,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ItBookRepository @Inject constructor(private val searchHistoryDao: SearchHistoryDao) {
+class ItBookRepository @Inject constructor(
+    private val searchHistoryDao: SearchHistoryDao,
+    private val bookmarkDao: BookmarkDao
+) {
     private val itBookApi: ItBookApi = ItBookApi.create()
 
     suspend fun getNew(): Flow<NewResponse> = flow {
@@ -50,5 +55,15 @@ class ItBookRepository @Inject constructor(private val searchHistoryDao: SearchH
         searchHistoryDao.deleteSearchHistory(searchHistory)
     }
 
+    fun getAllBookmarks(): Flow<List<Bookmark>> = bookmarkDao.getAllBookmarks()
 
+    fun isBookmarked(isbn13: String): Flow<Boolean> = bookmarkDao.isBookmarked(isbn13)
+
+    suspend fun insertBookmark(bookmark: Bookmark) {
+        bookmarkDao.insertBookmark(bookmark)
+    }
+
+    suspend fun deleteBookmark(isbn13: String) {
+        bookmarkDao.deleteBookmark(isbn13)
+    }
 }

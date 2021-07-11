@@ -1,4 +1,4 @@
-package com.example.sendbirdapp.repository.db
+package com.example.sendbirdapp.repository.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SearchHistoryDao {
-    @Query("SELECT * FROM search_histories")
+    @Query("SELECT * FROM SearchHistory")
     fun getAllSearchHistories(): Flow<List<SearchHistory>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

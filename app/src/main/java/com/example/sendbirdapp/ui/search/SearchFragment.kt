@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sendbirdapp.common.BOOK_SPACE_DECORATION
@@ -20,7 +20,7 @@ import kotlinx.coroutines.*
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
 
-    private lateinit var searchViewModel: SearchViewModel
+    private val searchViewModel: SearchViewModel by viewModels()
     private var _binding: FragmentSearchBinding? = null
 
     // This property is only valid between onCreateView and
@@ -34,8 +34,6 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        searchViewModel =
-            ViewModelProvider(this).get(SearchViewModel::class.java)
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         initUi()
         initObserver()

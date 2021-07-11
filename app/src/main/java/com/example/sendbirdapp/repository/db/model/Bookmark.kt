@@ -5,14 +5,14 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "SearchHistory", indices = [Index(value = ["query"], unique = true)])
-data class SearchHistory(
-    @ColumnInfo(name = "query")
-    val query: String,
+@Entity(tableName = "Bookmark", indices = [Index(value = ["isbn13"], unique = true)])
+data class Bookmark(
+    @ColumnInfo(name = "isbn13")
+    val isbn13: String,
     @ColumnInfo(name = "last_accessed_time")
     val lastAccessedTime: Long
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var searchHistoryId: Long = 0
+    var bookmarkId: Long = 0
 }

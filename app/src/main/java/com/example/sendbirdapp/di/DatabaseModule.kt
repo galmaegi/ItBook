@@ -19,4 +19,7 @@ class DatabaseModule {
 
     @Provides
     fun provideSearchHistoryDao(appDatabase: AppDatabase) = appDatabase.getSearchHistoryDao()
+
+    @Provides
+    fun provideBookmarkDao(appDatabase: AppDatabase) = appDatabase.getBookmarkDao()
 }
