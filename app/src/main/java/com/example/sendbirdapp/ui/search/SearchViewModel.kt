@@ -8,9 +8,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.sendbirdapp.repository.ItBookRepository
 import com.example.sendbirdapp.repository.db.model.SearchHistory
+import com.example.sendbirdapp.repository.network.model.BookItem
 import com.example.sendbirdapp.repository.network.model.SearchResponse
-import com.example.sendbirdapp.ui.search.model.LoadingItem
+import com.example.sendbirdapp.ui.search.model.SearchBookItem
 import com.example.sendbirdapp.ui.search.model.SearchItem
+import com.example.sendbirdapp.ui.search.model.SearchLoadingItem
 import com.example.sendbirdapp.ui.search.model.SearchModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -41,7 +43,7 @@ class SearchViewModel @Inject internal constructor(
         currentJob?.cancel()
         currentJob = CoroutineScope(Dispatchers.IO).launch {
             searchBooks(query, page).collect { response: SearchResponse ->
-                Log.d("SearchViewModel", "${response}")
+                Log.d("SearchViewModel", "$response")
                 searchModel = SearchModel(
                     query, response.total.toInt()
                 ).apply {
@@ -53,11 +55,13 @@ class SearchViewModel @Inject internal constructor(
                         notifyLoadEnded()
                         return@withContext
                     }
-
+                    val searchBookItemList = response.books.map {
+                        it.toSearchBookItem()
+                    }
                     if (isSearch) {
-                        setSearchBooksItemList(response.books)
+                        setSearchBooksItemList(searchBookItemList)
                     } else {
-                        addSearchBooksItemList(response.books)
+                        addSearchBooksItemList(searchBookItemList)
                     }
                 }
             }
@@ -66,20 +70,20 @@ class SearchViewModel @Inject internal constructor(
 
     @MainThread
     private fun setSearchBooksItemList(newItemList: List<SearchItem>) {
-        _searchBookList.value = newItemList + LoadingItem
+        _searchBookList.value = newItemList + SearchLoadingItem
     }
 
     @MainThread
     private fun addSearchBooksItemList(newItemList: List<SearchItem>) {
         _searchBookList.value = _searchBookList.value?.toMutableList()?.apply {
             addAll(size - 1, newItemList)
-        } ?: newItemList + LoadingItem
+        } ?: newItemList + SearchLoadingItem
     }
 
     @MainThread
     private fun notifyLoadEnded() {
         _searchBookList.value = _searchBookList.value?.toMutableList()?.apply {
-            if (size > 0 && get(lastIndex) is LoadingItem) {
+            if (size > 0 && get(lastIndex) is SearchLoadingItem) {
                 removeLast()
             }
         }
@@ -108,4 +112,13 @@ class SearchViewModel @Inject internal constructor(
             }
         }
     }
+
+    private fun BookItem.toSearchBookItem() = SearchBookItem(
+        title,
+        subtitle,
+        isbn13,
+        price,
+        image,
+        url
+    )
 }

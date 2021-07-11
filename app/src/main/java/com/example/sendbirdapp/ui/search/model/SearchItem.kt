@@ -1,9 +1,11 @@
 package com.example.sendbirdapp.ui.search.model
 
+/*
+* Marker interface
+* */
+interface SearchItem
 
-open class SearchItem
-
-data class BookItem(
+data class SearchBookItem(
     val title: String,
     val subtitle: String,
     val isbn13: String,
@@ -11,6 +13,6 @@ data class BookItem(
     // ImageUrl
     val image: String,
     val url: String,
-) : SearchItem()
+) : SearchItem
 
-object LoadingItem : SearchItem()
+object SearchLoadingItem : SearchItem
