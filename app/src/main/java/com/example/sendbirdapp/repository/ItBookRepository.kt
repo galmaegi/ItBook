@@ -2,7 +2,7 @@ package com.example.sendbirdapp.repository
 
 import com.example.sendbirdapp.repository.db.dao.BookmarkDao
 import com.example.sendbirdapp.repository.db.dao.SearchHistoryDao
-import com.example.sendbirdapp.repository.db.model.Bookmark
+import com.example.sendbirdapp.repository.db.model.BookmarkItem
 import com.example.sendbirdapp.repository.db.model.SearchHistory
 import com.example.sendbirdapp.repository.network.ItBookApi
 import com.example.sendbirdapp.repository.network.model.BooksResponse
@@ -55,11 +55,11 @@ class ItBookRepository @Inject constructor(
         searchHistoryDao.deleteSearchHistory(searchHistory)
     }
 
-    fun getAllBookmarks(): Flow<List<Bookmark>> = bookmarkDao.getAllBookmarks()
+    fun getAllBookmarks(): Flow<List<BookmarkItem>> = bookmarkDao.getAllBookmarks()
 
     fun isBookmarked(isbn13: String): Flow<Boolean> = bookmarkDao.isBookmarked(isbn13)
 
-    suspend fun insertBookmark(bookmark: Bookmark) {
+    suspend fun insertBookmark(bookmark: BookmarkItem) {
         bookmarkDao.insertBookmark(bookmark)
     }
 

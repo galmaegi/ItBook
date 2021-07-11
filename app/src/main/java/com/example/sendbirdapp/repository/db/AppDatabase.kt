@@ -6,10 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.sendbirdapp.repository.db.dao.BookmarkDao
 import com.example.sendbirdapp.repository.db.dao.SearchHistoryDao
-import com.example.sendbirdapp.repository.db.model.Bookmark
+import com.example.sendbirdapp.repository.db.model.BookmarkItem
 import com.example.sendbirdapp.repository.db.model.SearchHistory
 
-@Database(entities = [SearchHistory::class, Bookmark::class], version = 1, exportSchema = false)
+@Database(entities = [SearchHistory::class, BookmarkItem::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getSearchHistoryDao(): SearchHistoryDao
     abstract fun getBookmarkDao(): BookmarkDao

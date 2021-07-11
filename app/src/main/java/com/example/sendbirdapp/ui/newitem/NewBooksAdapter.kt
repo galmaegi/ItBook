@@ -70,7 +70,16 @@ class NewBooksViewHolder(
         } ?: View.GONE
 
         binding.root.setOnClickListener {
-            context.startActivity(context.getIntent(item.isbn13))
+            context.startActivity(
+                context.getIntent(
+                    item.title,
+                    item.subtitle,
+                    item.isbn13,
+                    item.price,
+                    item.image,
+                    item.url
+                )
+            )
         }
     }
 }

@@ -11,11 +11,6 @@ import com.bumptech.glide.Glide
 import com.example.sendbirdapp.R
 import com.example.sendbirdapp.databinding.ActivityDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class DetailActivity : AppCompatActivity() {
@@ -38,7 +33,26 @@ class DetailActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         }
 
-        getBookDetails(detailViewModel.isbn13)
+        detailViewModel.bookDetail.observe(this) {
+            Glide.with(baseContext)
+                .load(it.image)
+                .fitCenter()
+                .placeholder(R.drawable.loading_example)
+                .into(binding.image)
+            binding.title.text = it.title
+            binding.subtitle.text = it.subtitle
+            binding.authors.text = it.authors
+            binding.publisher.text = it.publisher
+            binding.isbn10.text = it.isbn10
+            binding.isbn13.text = it.isbn13
+            binding.pages.text = it.pages
+            binding.year.text = it.year
+            binding.rating.text = it.rating
+            binding.desc.text = it.desc
+            binding.price.text = it.price
+            binding.url.text = it.url
+            binding.pdf.text = it.pdf?.entrySet()?.joinToString()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -65,47 +79,35 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun updateOptionsMenu() {
-        val isbn13 = detailViewModel.isbn13
         if (detailViewModel.isBookmarked.value == true) {
-            detailViewModel.removeBookmark(isbn13)
+            detailViewModel.removeBookmark()
         } else {
-            detailViewModel.addBookmark(isbn13)
-        }
-    }
-
-    private fun getBookDetails(isbn13: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            detailViewModel.getBooks(isbn13).collect {
-                withContext(Dispatchers.Main) {
-                    Glide.with(baseContext)
-                        .load(it.image)
-                        .fitCenter()
-                        .placeholder(R.drawable.loading_example)
-                        .into(binding.image)
-                    binding.title.text = it.title
-                    binding.subtitle.text = it.subtitle
-                    binding.authors.text = it.authors
-                    binding.publisher.text = it.publisher
-                    binding.isbn10.text = it.isbn10
-                    binding.isbn13.text = it.isbn13
-                    binding.pages.text = it.pages
-                    binding.year.text = it.year
-                    binding.rating.text = it.rating
-                    binding.desc.text = it.desc
-                    binding.price.text = it.price
-                    binding.url.text = it.url
-                    binding.pdf.text = it.pdf?.entrySet()?.joinToString()
-                }
-            }
+            detailViewModel.addBookmark()
         }
     }
 
     companion object {
-        private const val EXTRA_ISBN13 = "extra_isbn13"
+        internal const val EXTRA_TITLE = "extra_title"
+        internal const val EXTRA_SUBTITLE = "extra_subtitle"
+        internal const val EXTRA_ISBN13 = "extra_isbn13"
+        internal const val EXTRA_PRICE = "extra_price"
+        internal const val EXTRA_IMAGE = "extra_image"
+        internal const val EXTRA_URL = "extra_url"
 
-        fun Context.getIntent(isbn13: String) =
-            Intent(this, DetailActivity::class.java).apply {
-                putExtra(EXTRA_ISBN13, isbn13)
-            }
+        fun Context.getIntent(
+            title: String,
+            subtitle: String,
+            isbn13: String,
+            price: String,
+            image: String,
+            url: String
+        ) = Intent(this, DetailActivity::class.java).apply {
+            putExtra(EXTRA_TITLE, title)
+            putExtra(EXTRA_SUBTITLE, subtitle)
+            putExtra(EXTRA_ISBN13, isbn13)
+            putExtra(EXTRA_PRICE, price)
+            putExtra(EXTRA_IMAGE, image)
+            putExtra(EXTRA_URL, url)
+        }
     }
 }

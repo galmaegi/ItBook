@@ -10,7 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,9 +23,7 @@ class NewViewModel @Inject constructor(
     fun fetchNewItem() {
         CoroutineScope(Dispatchers.IO).launch {
             itBookRepository.getNew().collect { response ->
-                withContext(Dispatchers.Main) {
-                    _newItemList.value = response.books.map { it.toNewItem() }
-                }
+                _newItemList.postValue(response.books.map { it.toNewItem() })
             }
         }
     }
