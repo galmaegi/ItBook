@@ -43,8 +43,8 @@ android {
     packagingOptions {
         // Multiple dependency bring these files in. Exclude them to enable
         // our test APK to build (has no effect on our AARs)
-        exclude ("META-INF/AL2.0")
-        exclude ("META-INF/LGPL2.1")
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
     }
 
     kotlinOptions {

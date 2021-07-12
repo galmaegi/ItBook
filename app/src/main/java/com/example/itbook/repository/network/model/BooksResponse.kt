@@ -8,6 +8,7 @@ data class BooksResponse(
     val subtitle: String = "",
     val authors: String = "",
     val publisher: String = "",
+    val language: String = "",
     val isbn10: String = "",
     val isbn13: String = "",
     val pages: String = "",

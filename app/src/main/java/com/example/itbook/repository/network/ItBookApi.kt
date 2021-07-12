@@ -31,8 +31,7 @@ interface ItBookApi {
     ): Call<BooksResponse?>?
 
     companion object {
-        private const val BASE_URL = "https://api.itbook.store/1.0/"
-        fun create(): ItBookApi {
+        fun create(baseUrl: String = "https://api.itbook.store/1.0/"): ItBookApi {
 
             val client = OkHttpClient.Builder()
                 .addNetworkInterceptor(
@@ -45,7 +44,7 @@ interface ItBookApi {
                 .readTimeout(60, TimeUnit.SECONDS)
                 .build()
             return Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build()

@@ -43,6 +43,13 @@
       tools:text="Manning" />
 
   <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/language"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textAlignment="textStart"
+      tools:text="English" />
+
+  <androidx.appcompat.widget.AppCompatTextView
       android:id="@+id/isbn10"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
