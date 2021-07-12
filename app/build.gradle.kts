@@ -10,7 +10,7 @@ android {
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId = "com.example.sendbirdapp"
+        applicationId = "com.example.itbook"
         minSdk = 21
         targetSdk = 30
         versionCode = 1
