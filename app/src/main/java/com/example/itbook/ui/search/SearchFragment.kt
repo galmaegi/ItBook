@@ -15,6 +15,8 @@ import com.example.itbook.common.BOOK_SPACE_DECORATION
 import com.example.itbook.common.HISTORY_SPACE_DECORATION
 import com.example.itbook.databinding.FragmentSearchBinding
 import com.example.itbook.repository.db.model.SearchHistory
+import com.example.itbook.ui.search.list.history.HistoryListAdapter
+import com.example.itbook.ui.search.list.search.SearchListAdapter
 import com.example.itbook.ui.search.model.SearchItem
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -57,7 +59,8 @@ class SearchFragment : Fragment() {
                 orientation = RecyclerView.HORIZONTAL
             }
             addItemDecoration(HISTORY_SPACE_DECORATION)
-            historyListAdapter.historyListEventListener = object : HistoryListEventListener {
+            historyListAdapter.historyListEventListener = object :
+                HistoryListAdapter.HistoryListEventListener {
                 override fun onSelectHistory(query: SearchHistory) {
                     searchViewModel.onSelectHistory(query)
                 }

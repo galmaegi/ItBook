@@ -1,4 +1,4 @@
-package com.example.itbook.ui.search
+package com.example.itbook.ui.search.list.search
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -59,20 +59,19 @@ class SearchListAdapter<VIEW : ViewBinding, ITEM : SearchItem> :
         }
     }
 
-}
-
-object SearchBooksDiffCallback : DiffUtil.ItemCallback<SearchItem>() {
-    override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean =
-        when {
-            oldItem is SearchBookItem && newItem is SearchBookItem -> oldItem.isbn13 == newItem.isbn13
-            else -> false
-        }
+    object SearchBooksDiffCallback : DiffUtil.ItemCallback<SearchItem>() {
+        override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean =
+            when {
+                oldItem is SearchBookItem && newItem is SearchBookItem -> oldItem.isbn13 == newItem.isbn13
+                else -> false
+            }
 
 
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean =
-        when {
-            oldItem is SearchBookItem && newItem is SearchBookItem -> oldItem == newItem
-            else -> false
-        }
+        @SuppressLint("DiffUtilEquals")
+        override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean =
+            when {
+                oldItem is SearchBookItem && newItem is SearchBookItem -> oldItem == newItem
+                else -> false
+            }
+    }
 }

@@ -56,7 +56,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.bookmark_menu, menu)
+        menuInflater.inflate(R.menu.detail_menu, menu)
         return true
     }
 
@@ -73,6 +73,7 @@ class DetailActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.check_bookmarked -> {
                 updateOptionsMenu()
+                return true
             }
         }
         return super.onOptionsItemSelected(item)

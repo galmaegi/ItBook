@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.itbook.common.BOOK_SPACE_DECORATION
 import com.example.itbook.databinding.FragmentNewBinding
+import com.example.itbook.ui.newitem.list.NewBooksAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

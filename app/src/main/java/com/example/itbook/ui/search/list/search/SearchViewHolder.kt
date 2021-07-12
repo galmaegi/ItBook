@@ -1,4 +1,4 @@
-package com.example.itbook.ui.search
+package com.example.itbook.ui.search.list.search
 
 import android.content.Context
 import android.view.View

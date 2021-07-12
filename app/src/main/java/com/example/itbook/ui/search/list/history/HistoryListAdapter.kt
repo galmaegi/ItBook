@@ -1,4 +1,4 @@
-package com.example.itbook.ui.search
+package com.example.itbook.ui.search.list.history
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -48,32 +48,17 @@ class HistoryListAdapter : ListAdapter<SearchHistory, HistoryItemViewHolder>(His
         super.onCurrentListChanged(previousList, currentList)
         recyclerView?.scrollToPosition(0)
     }
-}
 
-object HistoryDiffCallback : DiffUtil.ItemCallback<SearchHistory>() {
-    override fun areItemsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
-        oldItem.query == newItem.query
+    object HistoryDiffCallback : DiffUtil.ItemCallback<SearchHistory>() {
+        override fun areItemsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
+            oldItem.query == newItem.query
 
-    override fun areContentsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
-        oldItem == newItem
-}
+        override fun areContentsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
+            oldItem == newItem
+    }
 
-interface HistoryListEventListener {
-    fun onSelectHistory(query: SearchHistory)
-    fun removeHistory(query: SearchHistory)
-}
-
-class HistoryItemViewHolder(
-    private val binding: ItemHistoryBinding,
-    private val historyControl: HistoryListEventListener
-) : RecyclerView.ViewHolder(binding.root) {
-    fun onBind(history: SearchHistory) {
-        binding.historyText.text = history.query
-        binding.root.setOnClickListener {
-            historyControl.onSelectHistory(history)
-        }
-        binding.deleteButton.setOnClickListener {
-            historyControl.removeHistory(history)
-        }
+    interface HistoryListEventListener {
+        fun onSelectHistory(query: SearchHistory)
+        fun removeHistory(query: SearchHistory)
     }
 }

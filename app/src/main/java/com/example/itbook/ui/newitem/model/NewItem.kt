@@ -1,4 +1,4 @@
-package com.example.itbook.ui.newitem
+package com.example.itbook.ui.newitem.model
 
 data class NewItem(
     val title: String,

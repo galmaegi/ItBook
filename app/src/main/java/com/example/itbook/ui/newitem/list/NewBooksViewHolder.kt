@@ -1,48 +1,20 @@
-package com.example.itbook.ui.bookmark
+package com.example.itbook.ui.newitem.list
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.itbook.R
 import com.example.itbook.databinding.ItemBookBinding
-import com.example.itbook.repository.db.model.BookmarkItem
 import com.example.itbook.ui.detail.DetailActivity.Companion.getIntent
+import com.example.itbook.ui.newitem.model.NewItem
 
-class BookmarkAdapter : ListAdapter<BookmarkItem, BookmarkViewHolder>(BookmarkDiffCallback) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookmarkViewHolder {
-        return BookmarkViewHolder(
-            ItemBookBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
-    }
-
-    override fun onBindViewHolder(holder: BookmarkViewHolder, position: Int) {
-        holder.onBind(getItem(position))
-    }
-}
-
-object BookmarkDiffCallback : DiffUtil.ItemCallback<BookmarkItem>() {
-    override fun areItemsTheSame(oldItem: BookmarkItem, newItem: BookmarkItem): Boolean =
-        oldItem.isbn13 == newItem.isbn13
-
-    override fun areContentsTheSame(oldItem: BookmarkItem, newItem: BookmarkItem): Boolean =
-        oldItem == newItem
-}
-
-class BookmarkViewHolder(
+class NewBooksViewHolder(
     private val binding: ItemBookBinding
 ) : RecyclerView.ViewHolder(binding.root) {
     private val context: Context = binding.root.context
 
-    fun onBind(item: BookmarkItem) {
+    fun onBind(item: NewItem) {
         Glide.with(context)
             .load(item.image)
             .fitCenter()
