@@ -38,6 +38,13 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        exclude ("META-INF/AL2.0")
+        exclude ("META-INF/LGPL2.1")
+    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
@@ -62,6 +69,8 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.12.0")
     implementation("androidx.room:room-runtime:2.3.0")
     implementation("androidx.room:room-ktx:2.3.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
     kapt("androidx.room:room-compiler:2.3.0")
 
     implementation("androidx.work:work-runtime-ktx:2.5.0")
@@ -71,13 +80,14 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.2.3")
 
     implementation("com.google.dagger:hilt-android:2.37")
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
     kapt("com.google.dagger:hilt-android-compiler:2.37")
     kapt("com.google.dagger:hilt-compiler:2.37")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
+    androidTestImplementation("androidx.arch.core:core-testing:2.1.0")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.3")
 }
 
 kapt {

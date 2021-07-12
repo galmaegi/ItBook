@@ -19,9 +19,6 @@ interface BookmarkDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBookmark(searchHistoryList: BookmarkItem): Long
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateBookmark(searchHistoryList: BookmarkItem): Int
-
     @Query("DELETE FROM BookmarkItem WHERE isbn13 = :isbn13")
     suspend fun deleteBookmark(isbn13: String)
 }
