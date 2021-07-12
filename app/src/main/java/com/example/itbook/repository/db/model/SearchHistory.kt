@@ -5,10 +5,10 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "SearchHistory", indices = [Index(value = ["query"], unique = true)])
+@Entity(tableName = "SearchHistory", indices = [Index(value = ["keyword"], unique = true)])
 data class SearchHistory(
-    @ColumnInfo(name = "query")
-    val query: String,
+    @ColumnInfo(name = "keyword")
+    val keyword: String,
     @ColumnInfo(name = "last_accessed_time")
     val lastAccessedTime: Long
 ) {

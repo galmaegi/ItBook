@@ -9,7 +9,7 @@ class HistoryItemViewHolder(
     private val historyControl: HistoryListAdapter.HistoryListEventListener
 ) : RecyclerView.ViewHolder(binding.root) {
     fun onBind(history: SearchHistory) {
-        binding.historyText.text = history.query
+        binding.historyText.text = history.keyword
         binding.root.setOnClickListener {
             historyControl.onSelectHistory(history)
         }

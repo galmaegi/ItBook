@@ -51,7 +51,7 @@ class HistoryListAdapter : ListAdapter<SearchHistory, HistoryItemViewHolder>(His
 
     object HistoryDiffCallback : DiffUtil.ItemCallback<SearchHistory>() {
         override fun areItemsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
-            oldItem.query == newItem.query
+            oldItem.keyword == newItem.keyword
 
         override fun areContentsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
             oldItem == newItem

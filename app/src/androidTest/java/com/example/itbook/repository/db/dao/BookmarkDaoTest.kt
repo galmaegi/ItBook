@@ -51,9 +51,6 @@ class BookmarkDaoTest {
         2
     )
 
-    @get:Rule
-    var instantTaskExecutorRule = InstantTaskExecutorRule()
-
     @Before
     fun createDb() {
         runBlocking {

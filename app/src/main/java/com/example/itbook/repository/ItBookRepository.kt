@@ -51,8 +51,8 @@ class ItBookRepository @Inject constructor(
         searchHistoryDao.insertSearchHistory(searchHistory)
     }
 
-    suspend fun deleteSearchHistory(searchHistory: SearchHistory) {
-        searchHistoryDao.deleteSearchHistory(searchHistory)
+    suspend fun deleteSearchHistory(keyword: String) {
+        searchHistoryDao.deleteSearchHistory(keyword)
     }
 
     fun getAllBookmarks(): Flow<List<BookmarkItem>> = bookmarkDao.getAllBookmarks()

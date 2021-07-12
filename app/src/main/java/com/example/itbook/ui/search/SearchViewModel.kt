@@ -100,15 +100,15 @@ class SearchViewModel @Inject internal constructor(
     }
 
     fun onSelectHistory(history: SearchHistory) {
-        _searchText.value = history.query
+        _searchText.value = history.keyword
     }
 
     fun removeHistory(history: SearchHistory) {
         _historyList.value?.firstOrNull {
-            it.query == history.query
+            it.keyword == history.keyword
         }?.let {
             CoroutineScope(Dispatchers.IO).launch {
-                itBookRepository.deleteSearchHistory(it)
+                itBookRepository.deleteSearchHistory(it.keyword)
             }
         }
     }
