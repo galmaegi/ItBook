@@ -1,115 +1,296 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    tools:context=".ui.detail.DetailActivity">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <androidx.appcompat.widget.AppCompatImageView
-      android:id="@+id/image"
-      android:layout_width="wrap_content"
-      android:layout_height="200dp"
-      android:scaleType="fitCenter"
-      android:textAlignment="textStart" />
+  <data>
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/title"
+    <import type="android.view.View" />
+
+    <import type="android.text.TextUtils" />
+
+    <variable
+        name="detailItem"
+        type="com.example.itbook.ui.detail.BookDetailItem" />
+  </data>
+
+  <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="Securing DevOps" />
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:padding="10dp"
+      tools:context=".ui.detail.DetailActivity">
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/subtitle"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="Security in the Cloud" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/authors"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="Julien Vehent" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:transitionName="@string/transaction_book_image"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/publisher"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="Manning" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label_title"
+        style="@style/detail_label_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/title_label_string"
+        android:textAlignment="textStart"
+        android:visibility="@{TextUtils.isEmpty(detailItem.title) ? View.GONE : View.VISIBLE}"
+        app:layout_constraintLeft_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="@id/image" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/language"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="English" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@{detailItem.title}"
+        android:textAlignment="textStart"
+        app:layout_constraintLeft_toLeftOf="@id/label_title"
+        app:layout_constraintTop_toBottomOf="@id/label_title"
+        tools:text="Securing DevOps" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/isbn10"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="1617294136" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label_subtitle"
+        style="@style/detail_label_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/subtitle_label_string"
+        android:textAlignment="textStart"
+        android:visibility="@{TextUtils.isEmpty(detailItem.subtitle) ? View.GONE : View.VISIBLE}"
+        app:layout_constraintLeft_toLeftOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/isbn13"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="9781617294136" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@{detailItem.subtitle}"
+        android:textAlignment="textStart"
+        app:layout_constraintLeft_toLeftOf="@id/label_subtitle"
+        app:layout_constraintTop_toBottomOf="@id/label_subtitle"
+        tools:text="Security in the Cloud" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/pages"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="384" />
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image">
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/year"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="2018" />
+      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/rating"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="5" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_authors"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/authors_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.authors) ? View.GONE : View.VISIBLE}" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/desc"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="An application running in the cloud can benefit from incredible efficiencies, but they come with unique security threats too. A DevOps team's highest priority is understanding those risks and hardening the system against them.Securing DevOps teaches you the essential techniques to secure your cloud ..." />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/authors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.authors}"
+            android:textAlignment="textStart"
+            tools:text="Julien Vehent" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/price"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="$26.98" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_publisher"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/publisher_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.publisher) ? View.GONE : View.VISIBLE}" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/url"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="https://itbook.store/books/9781617294136" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/publisher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.publisher}"
+            android:textAlignment="textStart"
+            tools:text="Manning" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/pdf"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      tools:text="pdf detail" />
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_language"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/language_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.language) ? View.GONE : View.VISIBLE}" />
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/language"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.language}"
+            android:textAlignment="textStart"
+            tools:text="English" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_isbn10"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/isbn10_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.isbn10) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/isbn10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.isbn10}"
+            android:textAlignment="textStart"
+            tools:text="1617294136" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_isbn13"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/isbn13_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.isbn13) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/isbn13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.isbn13}"
+            android:textAlignment="textStart"
+            tools:text="9781617294136" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_pages"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pages_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.pages) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.pages}"
+            android:textAlignment="textStart"
+            tools:text="384" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_year"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/year_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.year) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.year}"
+            android:textAlignment="textStart"
+            tools:text="2018" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_rating"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rating_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.rating) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.rating}"
+            android:textAlignment="textStart"
+            tools:text="5" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_desc"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/desc_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.desc) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.desc}"
+            android:textAlignment="textStart"
+            tools:text="An application running in the cloud can benefit from incredible efficiencies, but they come with unique security threats too. A DevOps team's highest priority is understanding those risks and hardening the system against them.Securing DevOps teaches you the essential techniques to secure your cloud ..." />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_price"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/price_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.price) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.price}"
+            android:textAlignment="textStart"
+            tools:text="$26.98" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_url"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/url_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.url) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.url}"
+            android:textAlignment="textStart"
+            tools:text="https://itbook.store/books/9781617294136" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/label_pdf"
+            style="@style/detail_label_style"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pdf_label_string"
+            android:textAlignment="textStart"
+            android:visibility="@{TextUtils.isEmpty(detailItem.pdf) ? View.GONE : View.VISIBLE}" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/pdf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{detailItem.pdf}"
+            android:textAlignment="textStart"
+            tools:text="pdf detail" />
+      </LinearLayout>
+    </ScrollView>
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

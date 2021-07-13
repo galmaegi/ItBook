@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itbook.databinding.ItemBookBinding
-import com.example.itbook.repository.db.model.BookmarkItem
+import com.example.itbook.ui.bookmark.model.BookmarkItem
 
 class BookmarkAdapter : ListAdapter<BookmarkItem, BookmarkViewHolder>(BookmarkDiffCallback) {
     private var recyclerView: RecyclerView? = null

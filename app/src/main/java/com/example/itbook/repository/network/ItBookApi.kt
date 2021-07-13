@@ -9,7 +9,6 @@ import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
-import okhttp3.internal.cache.CacheInterceptor
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -42,6 +41,7 @@ interface ItBookApi {
     companion object {
         // 60seconds
         private const val CONNECTION_TIME_OUT = 60L
+
         // 10Mb
         private const val CACHE_SIZE = 10L * 1024 * 1024
         private const val BASE_URL = "https://api.itbook.store/1.0/"

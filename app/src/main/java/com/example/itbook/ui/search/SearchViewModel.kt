@@ -99,16 +99,16 @@ class SearchViewModel @Inject internal constructor(
         }
     }
 
-    fun onSelectHistory(history: SearchHistory) {
-        _searchText.value = history.keyword
+    fun onSelectHistory(keyword: String) {
+        _searchText.value = keyword
     }
 
-    fun removeHistory(history: SearchHistory) {
+    fun removeHistory(keyword: String) {
         _historyList.value?.firstOrNull {
-            it.keyword == history.keyword
+            it.keyword == keyword
         }?.let {
             CoroutineScope(Dispatchers.IO).launch {
-                itBookRepository.deleteSearchHistory(it.keyword)
+                itBookRepository.deleteSearchHistory(keyword)
             }
         }
     }

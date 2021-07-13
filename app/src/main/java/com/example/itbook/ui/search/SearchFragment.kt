@@ -14,10 +14,11 @@ import androidx.viewbinding.ViewBinding
 import com.example.itbook.common.BOOK_SPACE_DECORATION
 import com.example.itbook.common.HISTORY_SPACE_DECORATION
 import com.example.itbook.databinding.FragmentSearchBinding
-import com.example.itbook.repository.db.model.SearchHistory
 import com.example.itbook.ui.search.list.history.HistoryListAdapter
 import com.example.itbook.ui.search.list.search.SearchListAdapter
+import com.example.itbook.ui.search.model.HistoryItem
 import com.example.itbook.ui.search.model.SearchItem
+import com.example.itbook.ui.search.model.toHistoryItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -61,12 +62,12 @@ class SearchFragment : Fragment() {
             addItemDecoration(HISTORY_SPACE_DECORATION)
             historyListAdapter.historyListEventListener = object :
                 HistoryListAdapter.HistoryListEventListener {
-                override fun onSelectHistory(query: SearchHistory) {
-                    searchViewModel.onSelectHistory(query)
+                override fun onSelectHistory(item: HistoryItem) {
+                    searchViewModel.onSelectHistory(item.keyword)
                 }
 
-                override fun removeHistory(query: SearchHistory) {
-                    searchViewModel.removeHistory(query)
+                override fun removeHistory(item: HistoryItem) {
+                    searchViewModel.removeHistory(item.keyword)
                 }
             }
         }
@@ -91,8 +92,8 @@ class SearchFragment : Fragment() {
 
     private fun initObserver() {
         searchViewModel.historyList.observe(viewLifecycleOwner) { searchHistorySet ->
-            historyListAdapter.submitList(searchHistorySet.sortedByDescending {
-                it.lastAccessedTime
+            historyListAdapter.submitList(searchHistorySet.map {
+                it.toHistoryItem()
             })
         }
 

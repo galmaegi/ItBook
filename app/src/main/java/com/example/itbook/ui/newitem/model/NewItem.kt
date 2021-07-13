@@ -1,11 +1,13 @@
 package com.example.itbook.ui.newitem.model
 
+import com.example.itbook.ui.common.booklist.model.BookListItem
+
 data class NewItem(
-    val title: String,
-    val subtitle: String,
-    val isbn13: String,
-    val price: String,
+    override val title: String,
+    override val subtitle: String,
+    override val isbn13: String,
+    override val price: String,
     // ImageUrl
-    val image: String,
-    val url: String,
-)
+    override val image: String,
+    override val url: String
+) : BookListItem

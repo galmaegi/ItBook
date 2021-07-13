@@ -18,4 +18,6 @@
   <string name="price_label_string">Price</string>
   <string name="url_label_string">Url</string>
   <string name="pdf_label_string">Pdf</string>
+  <string name="transaction_book_image">transaction_book_image</string>
+  <string name="language_label_string">Language</string>
 </resources>

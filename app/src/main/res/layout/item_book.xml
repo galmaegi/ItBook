@@ -1,156 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="300dp"
-    android:background="@drawable/item_book_background"
-    android:padding="10dp">
+<layout>
 
-  <androidx.appcompat.widget.AppCompatImageView
-      android:id="@+id/image"
-      android:layout_width="100dp"
-      android:layout_height="wrap_content"
-      android:textAlignment="textStart"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+  <data>
 
-  <androidx.constraintlayout.widget.Barrier
-      android:id="@+id/barrier"
-      app:barrierMargin="5dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:barrierDirection="right"
-      app:constraint_referenced_ids="label_title, label_subtitle, label_isbn13, label_price, label_url" />
+    <variable
+        name="bookItem"
+        type="com.example.itbook.ui.common.booklist.model.BookListItem" />
+  </data>
 
-  <androidx.constraintlayout.widget.Group
-      android:id="@+id/group_title"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:constraint_referenced_ids="label_title, title" />
+  <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      android:layout_width="match_parent"
+      android:layout_height="300dp"
+      android:background="@drawable/item_book_background"
+      android:padding="10dp">
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/label_title"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/title_label_string"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/image" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/image"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        android:transitionName="@string/transaction_book_image"
+        app:bindImage="@{bookItem.image}"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/title"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:ellipsize="end"
-      android:maxLines="1"
-      android:textAlignment="textStart"
-      app:layout_constraintLeft_toRightOf="@id/barrier"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/image"
-      tools:text="Securing DevOps" />
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="right"
+        app:barrierMargin="5dp"
+        app:constraint_referenced_ids="label_title, label_subtitle, label_isbn13, label_price, label_url" />
 
-  <androidx.constraintlayout.widget.Group
-      android:id="@+id/group_subtitle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:constraint_referenced_ids="label_subtitle, subtitle" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bindObject="@{bookItem.title}"
+        app:constraint_referenced_ids="label_title, title" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/label_subtitle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/subtitle_label_string"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/label_title" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_label_string"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/subtitle"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:ellipsize="end"
-      android:maxLines="1"
-      android:textAlignment="textStart"
-      app:layout_constraintLeft_toRightOf="@id/barrier"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/title"
-      tools:text="Security in the Cloud" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@{bookItem.title}"
+        android:textAlignment="textStart"
+        app:layout_constraintLeft_toRightOf="@id/barrier"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        tools:text="Securing DevOps" />
 
-  <androidx.constraintlayout.widget.Group
-      android:id="@+id/group_isbn13"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:constraint_referenced_ids="label_isbn13, isbn13" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bindObject="@{bookItem.subtitle}"
+        app:constraint_referenced_ids="label_subtitle, subtitle" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/label_isbn13"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/isbn13_label_string"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/label_subtitle" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/subtitle_label_string"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_title" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/isbn13"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:ellipsize="end"
-      android:maxLines="1"
-      android:textAlignment="textStart"
-      app:layout_constraintLeft_toRightOf="@id/barrier"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/subtitle"
-      tools:text="9781617294136" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/subtitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@{bookItem.subtitle}"
+        android:textAlignment="textStart"
+        app:layout_constraintLeft_toRightOf="@id/barrier"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="Security in the Cloud" />
 
-  <androidx.constraintlayout.widget.Group
-      android:id="@+id/group_price"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:constraint_referenced_ids="label_price, price" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_isbn13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bindObject="@{bookItem.isbn13}"
+        app:constraint_referenced_ids="label_isbn13, isbn13" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/label_price"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/price_label_string"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/label_isbn13" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label_isbn13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/isbn13_label_string"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_subtitle" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/price"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:ellipsize="end"
-      android:maxLines="1"
-      android:textAlignment="textStart"
-      app:layout_constraintLeft_toRightOf="@id/barrier"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/isbn13"
-      tools:text="$26.98" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/isbn13"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@{bookItem.isbn13}"
+        android:textAlignment="textStart"
+        app:layout_constraintLeft_toRightOf="@id/barrier"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subtitle"
+        tools:text="9781617294136" />
 
-  <androidx.constraintlayout.widget.Group
-      android:id="@+id/group_url"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      app:constraint_referenced_ids="label_url, url" />
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bindObject="@{bookItem.price}"
+        app:constraint_referenced_ids="label_price, price" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/label_url"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/url_label_string"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/label_price" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price_label_string"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_isbn13" />
 
-  <androidx.appcompat.widget.AppCompatTextView
-      android:id="@+id/url"
-      android:layout_width="0dp"
-      android:layout_height="wrap_content"
-      android:ellipsize="end"
-      android:maxLines="1"
-      android:textAlignment="textStart"
-      app:layout_constraintLeft_toRightOf="@id/barrier"
-      app:layout_constraintRight_toRightOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/price"
-      tools:text="https://itbook.store/books/9781617294136 https://itbook.store/books/9781617294136" />
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@{bookItem.price}"
+        android:textAlignment="textStart"
+        app:layout_constraintLeft_toRightOf="@id/barrier"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/isbn13"
+        tools:text="$26.98" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:bindObject="@{bookItem.url}"
+        app:constraint_referenced_ids="label_url, url" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/label_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/url_label_string"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/label_price" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/url"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@{bookItem.url}"
+        android:textAlignment="textStart"
+        app:layout_constraintLeft_toRightOf="@id/barrier"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/price"
+        tools:text="https://itbook.store/books/9781617294136 https://itbook.store/books/9781617294136" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -7,8 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
 import com.example.itbook.R
+import com.example.itbook.common.extensions.bindImage
+import com.example.itbook.common.extensions.setCompressedRawBitmap
 import com.example.itbook.databinding.ActivityDetailBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,29 +30,18 @@ class DetailActivity : AppCompatActivity() {
             finish()
             return
         }
+        val bitmap = intent.getByteArrayExtra(EXTRA_IMAGE_BITMAP)
+        if (bitmap != null) {
+            binding.image.setCompressedRawBitmap(bitmap)
+        } else {
+            binding.image.bindImage(detailViewModel.bookmark.image)
+        }
         detailViewModel.isBookmarked.observe(this) {
             invalidateOptionsMenu()
         }
 
         detailViewModel.bookDetail.observe(this) {
-            Glide.with(baseContext)
-                .load(it.image)
-                .fitCenter()
-                .placeholder(R.drawable.loading_example)
-                .into(binding.image)
-            binding.title.text = it.title
-            binding.subtitle.text = it.subtitle
-            binding.authors.text = it.authors
-            binding.publisher.text = it.publisher
-            binding.isbn10.text = it.isbn10
-            binding.isbn13.text = it.isbn13
-            binding.pages.text = it.pages
-            binding.year.text = it.year
-            binding.rating.text = it.rating
-            binding.desc.text = it.desc
-            binding.price.text = it.price
-            binding.url.text = it.url
-            binding.pdf.text = it.pdf?.entrySet()?.joinToString()
+            binding.detailItem = it.toBookDetailItem()
         }
     }
 
@@ -94,14 +84,16 @@ class DetailActivity : AppCompatActivity() {
         internal const val EXTRA_PRICE = "extra_price"
         internal const val EXTRA_IMAGE = "extra_image"
         internal const val EXTRA_URL = "extra_url"
+        internal const val EXTRA_IMAGE_BITMAP = "extra_image_bitmap"
 
-        fun Context.getIntent(
+        fun Context.getDetailActivityIntent(
             title: String,
             subtitle: String,
             isbn13: String,
             price: String,
             image: String,
-            url: String
+            url: String,
+            imageBitmap: ByteArray? = null
         ) = Intent(this, DetailActivity::class.java).apply {
             putExtra(EXTRA_TITLE, title)
             putExtra(EXTRA_SUBTITLE, subtitle)
@@ -109,6 +101,7 @@ class DetailActivity : AppCompatActivity() {
             putExtra(EXTRA_PRICE, price)
             putExtra(EXTRA_IMAGE, image)
             putExtra(EXTRA_URL, url)
+            putExtra(EXTRA_IMAGE_BITMAP, imageBitmap)
         }
     }
 }

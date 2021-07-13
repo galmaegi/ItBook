@@ -1,6 +1,6 @@
 package com.example.itbook.ui.bookmark
 
-import com.example.itbook.repository.db.model.BookmarkItem
+import com.example.itbook.ui.bookmark.model.BookmarkItem
 
 enum class BookmarkSortMode(val desc: String, val comparator: Comparator<BookmarkItem>) {
     SORT_BY_TITLE("Title", Comparator<BookmarkItem> { o1, o2 ->

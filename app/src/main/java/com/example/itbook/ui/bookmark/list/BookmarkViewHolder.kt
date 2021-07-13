@@ -1,13 +1,13 @@
 package com.example.itbook.ui.bookmark.list
 
+import android.app.ActivityOptions
 import android.content.Context
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.itbook.R
+import com.example.itbook.common.extensions.getActivityContext
+import com.example.itbook.common.extensions.getCompressedRawBitmap
 import com.example.itbook.databinding.ItemBookBinding
-import com.example.itbook.repository.db.model.BookmarkItem
-import com.example.itbook.ui.detail.DetailActivity.Companion.getIntent
+import com.example.itbook.ui.bookmark.model.BookmarkItem
+import com.example.itbook.ui.detail.DetailActivity.Companion.getDetailActivityIntent
 
 class BookmarkViewHolder(
     private val binding: ItemBookBinding
@@ -15,43 +15,26 @@ class BookmarkViewHolder(
     private val context: Context = binding.root.context
 
     fun onBind(item: BookmarkItem) {
-        Glide.with(context)
-            .load(item.image)
-            .fitCenter()
-            .placeholder(R.drawable.loading_example)
-            .into(binding.image)
-
-        binding.groupTitle.visibility = item.title.takeUnless { it.isNullOrEmpty() }?.let {
-            binding.title.text = it
-            View.VISIBLE
-        } ?: View.GONE
-        binding.groupSubtitle.visibility = item.subtitle.takeUnless { it.isNullOrEmpty() }?.let {
-            binding.subtitle.text = it
-            View.VISIBLE
-        } ?: View.GONE
-        binding.groupIsbn13.visibility = item.isbn13.takeUnless { it.isNullOrEmpty() }?.let {
-            binding.isbn13.text = it
-            View.VISIBLE
-        } ?: View.GONE
-        binding.groupPrice.visibility = item.price.takeUnless { it.isNullOrEmpty() }?.let {
-            binding.price.text = it
-            View.VISIBLE
-        } ?: View.GONE
-        binding.groupUrl.visibility = item.url.takeUnless { it.isNullOrEmpty() }?.let {
-            binding.url.text = it
-            View.VISIBLE
-        } ?: View.GONE
-
+        binding.bookItem = item
         binding.root.setOnClickListener {
+            val options = context.getActivityContext()?.let {
+                ActivityOptions.makeSceneTransitionAnimation(
+                    it,
+                    binding.image,
+                    binding.image.transitionName
+                )
+            }
             context.startActivity(
-                context.getIntent(
+                context.getDetailActivityIntent(
                     item.title,
                     item.subtitle,
                     item.isbn13,
                     item.price,
                     item.image,
-                    item.url
-                )
+                    item.url,
+                    binding.image.getCompressedRawBitmap()
+                ),
+                options?.toBundle()
             )
         }
     }

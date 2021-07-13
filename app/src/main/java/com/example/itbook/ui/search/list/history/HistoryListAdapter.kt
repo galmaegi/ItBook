@@ -6,19 +6,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itbook.databinding.ItemHistoryBinding
-import com.example.itbook.repository.db.model.SearchHistory
+import com.example.itbook.ui.search.model.HistoryItem
 
-class HistoryListAdapter : ListAdapter<SearchHistory, HistoryItemViewHolder>(HistoryDiffCallback) {
+class HistoryListAdapter : ListAdapter<HistoryItem, HistoryItemViewHolder>(HistoryDiffCallback) {
     var historyListEventListener: HistoryListEventListener? = null
 
     private var recyclerView: RecyclerView? = null
     private val _innerHistoryListEventListener = object : HistoryListEventListener {
-        override fun onSelectHistory(query: SearchHistory) {
-            historyListEventListener?.onSelectHistory(query)
+        override fun onSelectHistory(item: HistoryItem) {
+            historyListEventListener?.onSelectHistory(item)
         }
 
-        override fun removeHistory(query: SearchHistory) {
-            historyListEventListener?.removeHistory(query)
+        override fun removeHistory(item: HistoryItem) {
+            historyListEventListener?.removeHistory(item)
         }
     }
 
@@ -42,23 +42,23 @@ class HistoryListAdapter : ListAdapter<SearchHistory, HistoryItemViewHolder>(His
     }
 
     override fun onCurrentListChanged(
-        previousList: MutableList<SearchHistory>,
-        currentList: MutableList<SearchHistory>
+        previousList: MutableList<HistoryItem>,
+        currentList: MutableList<HistoryItem>
     ) {
         super.onCurrentListChanged(previousList, currentList)
         recyclerView?.scrollToPosition(0)
     }
 
-    object HistoryDiffCallback : DiffUtil.ItemCallback<SearchHistory>() {
-        override fun areItemsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
+    object HistoryDiffCallback : DiffUtil.ItemCallback<HistoryItem>() {
+        override fun areItemsTheSame(oldItem: HistoryItem, newItem: HistoryItem): Boolean =
             oldItem.keyword == newItem.keyword
 
-        override fun areContentsTheSame(oldItem: SearchHistory, newItem: SearchHistory): Boolean =
+        override fun areContentsTheSame(oldItem: HistoryItem, newItem: HistoryItem): Boolean =
             oldItem == newItem
     }
 
     interface HistoryListEventListener {
-        fun onSelectHistory(query: SearchHistory)
-        fun removeHistory(query: SearchHistory)
+        fun onSelectHistory(item: HistoryItem)
+        fun removeHistory(item: HistoryItem)
     }
 }

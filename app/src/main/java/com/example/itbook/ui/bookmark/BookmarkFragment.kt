@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.itbook.R
 import com.example.itbook.common.BOOK_SPACE_DECORATION
 import com.example.itbook.databinding.FragmentBookmarkBinding
-import com.example.itbook.repository.db.model.BookmarkItem
 import com.example.itbook.ui.bookmark.list.BookmarkAdapter
+import com.example.itbook.ui.bookmark.model.toBookmarkItem
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -47,15 +47,20 @@ class BookmarkFragment : Fragment() {
         binding.list.addItemDecoration(BOOK_SPACE_DECORATION)
 
         bookmarkViewModel.bookmarkList.observe(viewLifecycleOwner, { list ->
+            bookmarkViewModel.setBookmarkUIList(list.map {
+                it.toBookmarkItem()
+            })
+        })
+        bookmarkViewModel.bookmarkSortMode.observe(viewLifecycleOwner, { mode ->
+            bookmarkViewModel.bookmarkUIList.value?.let { list ->
+                refreshListItems(list, mode)
+            }
+        })
+        bookmarkViewModel.bookmarkUIList.observe(viewLifecycleOwner) { list ->
             bookmarkViewModel.bookmarkSortMode.value?.let { mode ->
                 refreshListItems(list, mode)
             }
-        })
-        bookmarkViewModel.bookmarkSortMode.observe(viewLifecycleOwner, { mode ->
-            bookmarkViewModel.bookmarkList.value?.let { list ->
-                refreshListItems(list, mode)
-            }
-        })
+        }
         setHasOptionsMenu(true)
 
         return binding.root
@@ -75,7 +80,10 @@ class BookmarkFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun refreshListItems(list: List<BookmarkItem>, mode: BookmarkSortMode) {
+    private fun refreshListItems(
+        list: List<com.example.itbook.ui.bookmark.model.BookmarkItem>,
+        mode: BookmarkSortMode
+    ) {
         adapter.submitList(list.sortedWith(mode.comparator))
     }
 
