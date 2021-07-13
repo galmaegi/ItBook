@@ -9,7 +9,7 @@
 
     <variable
         name="detailItem"
-        type="com.example.itbook.ui.detail.BookDetailItem" />
+        type="com.example.itbook.ui.detail.model.BookDetailItem" />
   </data>
 
   <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

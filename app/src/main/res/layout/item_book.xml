@@ -12,15 +12,15 @@
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
       android:layout_width="match_parent"
-      android:layout_height="300dp"
+      android:layout_height="wrap_content"
       android:background="@drawable/item_book_background"
       android:padding="10dp">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/image"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        android:layout_width="120dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
         android:transitionName="@string/transaction_book_image"
         app:bindImage="@{bookItem.image}"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -47,8 +47,10 @@
         android:layout_height="wrap_content"
         android:text="@string/title_label_string"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image" />
+        app:layout_constraintBottom_toTopOf="@id/label_subtitle"
+        app:layout_constraintLeft_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
@@ -58,9 +60,11 @@
         android:maxLines="1"
         android:text="@{bookItem.title}"
         android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@id/subtitle"
         app:layout_constraintLeft_toRightOf="@id/barrier"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/image"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
         tools:text="Securing DevOps" />
 
     <androidx.constraintlayout.widget.Group
@@ -76,7 +80,9 @@
         android:layout_height="wrap_content"
         android:text="@string/subtitle_label_string"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/label_isbn13"
+
+        app:layout_constraintLeft_toLeftOf="@id/label_title"
         app:layout_constraintTop_toBottomOf="@id/label_title" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -87,6 +93,7 @@
         android:maxLines="1"
         android:text="@{bookItem.subtitle}"
         android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@id/isbn13"
         app:layout_constraintLeft_toRightOf="@id/barrier"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
@@ -105,7 +112,8 @@
         android:layout_height="wrap_content"
         android:text="@string/isbn13_label_string"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/label_price"
+        app:layout_constraintLeft_toLeftOf="@id/label_subtitle"
         app:layout_constraintTop_toBottomOf="@id/label_subtitle" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -116,6 +124,7 @@
         android:maxLines="1"
         android:text="@{bookItem.isbn13}"
         android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@id/price"
         app:layout_constraintLeft_toRightOf="@id/barrier"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subtitle"
@@ -134,7 +143,8 @@
         android:layout_height="wrap_content"
         android:text="@string/price_label_string"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/label_url"
+        app:layout_constraintLeft_toLeftOf="@id/label_title"
         app:layout_constraintTop_toBottomOf="@id/label_isbn13" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -145,6 +155,7 @@
         android:maxLines="1"
         android:text="@{bookItem.price}"
         android:textAlignment="textStart"
+        app:layout_constraintBottom_toTopOf="@id/url"
         app:layout_constraintLeft_toRightOf="@id/barrier"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/isbn13"
@@ -163,7 +174,8 @@
         android:layout_height="wrap_content"
         android:text="@string/url_label_string"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/label_title"
         app:layout_constraintTop_toBottomOf="@id/label_price" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -174,6 +186,7 @@
         android:maxLines="1"
         android:text="@{bookItem.url}"
         android:textAlignment="textStart"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/barrier"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/price"

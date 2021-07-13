@@ -1,4 +1,4 @@
-package com.example.itbook.ui.detail
+package com.example.itbook.ui.detail.model
 
 import com.example.itbook.repository.network.model.BooksResponse
 import com.google.gson.JsonObject

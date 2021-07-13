@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream
 fun ImageView.bindImage(url: String?) {
     Glide.with(context)
         .load(url)
-        .fitCenter()
+        .centerCrop()
         .placeholder(R.drawable.loading_example)
         .into(this)
 }
