@@ -1,6 +1,7 @@
 package com.example.itbook.repository.network
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.MatcherAssert.assertThat
@@ -15,7 +16,8 @@ class ItBookApiTest {
 
     @Before
     fun createApi() {
-        itBookApi = ItBookApi.create()
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        itBookApi = ItBookApi.create(context)
     }
 
     @Test
