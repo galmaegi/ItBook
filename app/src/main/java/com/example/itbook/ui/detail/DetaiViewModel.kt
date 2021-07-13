@@ -6,14 +6,16 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.itbook.repository.ItBookRepository
-import com.example.itbook.repository.db.model.BookmarkItem
-import com.example.itbook.repository.network.model.BooksResponse
+import com.example.itbook.repository.db.model.BookDetail
+import com.example.itbook.ui.bookmark.model.BookmarkItem
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_IMAGE
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_ISBN13
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_PRICE
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_SUBTITLE
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_TITLE
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_URL
+import com.example.itbook.ui.detail.model.BookDetailItem
+import com.example.itbook.ui.detail.model.toBookDetailItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +28,7 @@ class DetailViewModel @Inject constructor(
     private val itBookRepository: ItBookRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-    private val _bookDetail: MutableLiveData<BooksResponse> = MutableLiveData()
+    private val _bookDetailItem: MutableLiveData<BookDetailItem> = MutableLiveData()
     val bookmark: BookmarkItem = BookmarkItem(
         savedStateHandle.get<String>(EXTRA_TITLE) ?: "",
         savedStateHandle.get<String>(EXTRA_SUBTITLE) ?: "",
@@ -36,28 +38,47 @@ class DetailViewModel @Inject constructor(
         savedStateHandle.get<String>(EXTRA_URL) ?: "",
         System.currentTimeMillis()
     )
-    val isBookmarked = itBookRepository.isBookmarked(bookmark.isbn13).asLiveData()
-    val bookDetail: LiveData<BooksResponse> = _bookDetail
+    val isBookmarked = itBookRepository.isBookDetailAvailable(bookmark.isbn13).asLiveData()
+    val bookDetailItem: LiveData<BookDetailItem> = _bookDetailItem
 
     init {
         CoroutineScope(Dispatchers.IO).launch {
             itBookRepository.getBooks(bookmark.isbn13).collect {
-                _bookDetail.postValue(it)
+                _bookDetailItem.postValue(it.toBookDetailItem())
             }
         }
     }
 
     fun addBookmark() {
-        CoroutineScope(Dispatchers.IO).launch {
-            bookmark.access()
-            itBookRepository.insertBookmark(bookmark)
+        bookDetailItem.value?.let {
+            CoroutineScope(Dispatchers.IO).launch {
+                itBookRepository.insertBookDetail(
+                    BookDetail(
+                        it.title,
+                        it.subtitle,
+                        it.authors,
+                        it.publisher,
+                        it.language,
+                        it.isbn10,
+                        it.isbn13,
+                        it.pages,
+                        it.year,
+                        it.rating,
+                        it.desc,
+                        it.price,
+                        it.image,
+                        it.url,
+                        it.pdf
+                    )
+                )
+            }
         }
     }
 
     fun removeBookmark() {
         if (isBookmarked.value == true) {
             CoroutineScope(Dispatchers.IO).launch {
-                itBookRepository.deleteBookmark(bookmark.isbn13)
+                itBookRepository.deleteBookDetail(bookmark.isbn13)
             }
         }
     }

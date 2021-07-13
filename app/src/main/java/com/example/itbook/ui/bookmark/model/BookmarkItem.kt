@@ -1,6 +1,6 @@
 package com.example.itbook.ui.bookmark.model
 
-import com.example.itbook.repository.db.model.BookmarkItem
+import com.example.itbook.repository.db.model.BookDetail
 import com.example.itbook.ui.common.booklist.model.BookListItem
 
 data class BookmarkItem(
@@ -13,7 +13,7 @@ data class BookmarkItem(
     var lastAccessedTime: Long
 ) : BookListItem
 
-fun BookmarkItem.toBookmarkItem() = com.example.itbook.ui.bookmark.model.BookmarkItem(
+fun BookDetail.toBookmarkItem() = BookmarkItem(
     title,
     subtitle,
     isbn13,

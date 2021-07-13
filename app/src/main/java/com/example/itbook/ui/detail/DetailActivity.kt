@@ -11,7 +11,6 @@ import com.example.itbook.R
 import com.example.itbook.common.extensions.bindImage
 import com.example.itbook.common.extensions.setCompressedRawBitmap
 import com.example.itbook.databinding.ActivityDetailBinding
-import com.example.itbook.ui.detail.model.toBookDetailItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,8 +40,8 @@ class DetailActivity : AppCompatActivity() {
             invalidateOptionsMenu()
         }
 
-        detailViewModel.bookDetail.observe(this) {
-            binding.detailItem = it.toBookDetailItem()
+        detailViewModel.bookDetailItem.observe(this) {
+            binding.detailItem = it
         }
     }
 

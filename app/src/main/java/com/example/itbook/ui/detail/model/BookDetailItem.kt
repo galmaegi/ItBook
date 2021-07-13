@@ -1,5 +1,6 @@
 package com.example.itbook.ui.detail.model
 
+import com.example.itbook.repository.db.model.BookDetail
 import com.example.itbook.repository.network.model.BooksResponse
 import com.google.gson.JsonObject
 
@@ -20,8 +21,29 @@ data class BookDetailItem(
     val image: String = "",
     val url: String = "",
     // seems optional
-    val pdf: String?
+    val pdf: String = "",
+    // only available when book detail item is in db
+    var lastAccessedTime: Long = 0
 )
+
+fun BookDetail.toBookDetailItem() =
+    BookDetailItem(
+        title,
+        subtitle,
+        authors,
+        publisher,
+        language,
+        isbn10,
+        isbn13,
+        pages,
+        year,
+        rating,
+        desc,
+        price,
+        image,
+        url,
+        pdf
+    )
 
 fun BooksResponse.toBookDetailItem() =
     BookDetailItem(

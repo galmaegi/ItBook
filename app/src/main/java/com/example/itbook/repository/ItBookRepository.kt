@@ -2,16 +2,18 @@ package com.example.itbook.repository
 
 import android.content.Context
 import androidx.annotation.WorkerThread
-import com.example.itbook.repository.db.dao.BookmarkDao
+import com.example.itbook.repository.db.dao.BookDetailDao
 import com.example.itbook.repository.db.dao.SearchHistoryDao
-import com.example.itbook.repository.db.model.BookmarkItem
+import com.example.itbook.repository.db.model.BookDetail
 import com.example.itbook.repository.db.model.SearchHistory
 import com.example.itbook.repository.network.ItBookApi
-import com.example.itbook.repository.network.model.BooksResponse
 import com.example.itbook.repository.network.model.NewResponse
 import com.example.itbook.repository.network.model.SearchResponse
+import com.example.itbook.repository.network.model.toBookDetail
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,7 +21,7 @@ import javax.inject.Singleton
 @Singleton
 class ItBookRepository @Inject constructor(
     private val searchHistoryDao: SearchHistoryDao,
-    private val bookmarkDao: BookmarkDao,
+    private val bookmarkDao: BookDetailDao,
     @ApplicationContext context: Context
 ) {
     private val itBookApi: ItBookApi = ItBookApi.create(context)
@@ -43,11 +45,15 @@ class ItBookRepository @Inject constructor(
     }
 
     @WorkerThread
-    suspend fun getBooks(isbn13: String): Flow<BooksResponse> = flow {
-        val call = itBookApi.getBooks(isbn13)
-        val response = call?.execute()
-        response?.body()?.let {
-            emit(it)
+    suspend fun getBooks(isbn13: String): Flow<BookDetail> = flow {
+        if (isBookDetailAvailable(isbn13).first()) {
+            emitAll(getBookDetail(isbn13))
+        } else {
+            val call = itBookApi.getBooks(isbn13)
+            val response = call?.execute()
+            response?.body()?.let {
+                emit(it.toBookDetail())
+            }
         }
     }
 
@@ -62,15 +68,19 @@ class ItBookRepository @Inject constructor(
         searchHistoryDao.deleteSearchHistory(keyword)
     }
 
-    fun getAllBookmarks(): Flow<List<BookmarkItem>> = bookmarkDao.getAllBookmarks()
+    fun getAllBookDetail(): Flow<List<BookDetail>> = bookmarkDao.getAllBookDetail()
 
-    fun isBookmarked(isbn13: String): Flow<Boolean> = bookmarkDao.isBookmarked(isbn13)
+    fun getBookDetail(isbn13: String): Flow<BookDetail> =
+        bookmarkDao.getBookDetail(isbn13)
 
-    suspend fun insertBookmark(bookmark: BookmarkItem) {
-        bookmarkDao.insertBookmark(bookmark)
+    fun isBookDetailAvailable(isbn13: String): Flow<Boolean> =
+        bookmarkDao.isBookDetailAvailable(isbn13)
+
+    suspend fun insertBookDetail(bookDetail: BookDetail) {
+        bookmarkDao.insertBookDetail(bookDetail)
     }
 
-    suspend fun deleteBookmark(isbn13: String) {
-        bookmarkDao.deleteBookmark(isbn13)
+    suspend fun deleteBookDetail(isbn13: String) {
+        bookmarkDao.deleteBookDetail(isbn13)
     }
 }

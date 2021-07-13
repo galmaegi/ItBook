@@ -19,7 +19,7 @@ class BookmarkViewModel @Inject constructor(
         MutableLiveData(BookmarkSortMode.SORT_BY_TITLE)
     private val _bookmarkUIList = MutableLiveData<List<BookmarkItem>>()
 
-    val bookmarkList = itBookRepository.getAllBookmarks().asLiveData()
+    val bookmarkList = itBookRepository.getAllBookDetail().asLiveData()
     val bookmarkSortMode: LiveData<BookmarkSortMode> = _bookmarkSortMode
     val bookmarkUIList: LiveData<List<BookmarkItem>> = _bookmarkUIList
 

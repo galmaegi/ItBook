@@ -1,5 +1,7 @@
 package com.example.itbook.repository.network.model
 
+import com.example.itbook.repository.db.model.BookDetail
+import com.example.itbook.ui.detail.model.toJoinedString
 import com.google.gson.JsonObject
 
 data class BooksResponse(
@@ -21,4 +23,22 @@ data class BooksResponse(
     val url: String = "",
     // seems optional
     val pdf: JsonObject?
+)
+
+fun BooksResponse.toBookDetail() = BookDetail(
+    title,
+    subtitle,
+    authors,
+    publisher,
+    language,
+    isbn10,
+    isbn13,
+    pages,
+    year,
+    rating,
+    desc,
+    price,
+    image,
+    url,
+    pdf.toJoinedString()
 )
