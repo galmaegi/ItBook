@@ -92,9 +92,13 @@ class SearchFragment : Fragment() {
 
     private fun initObserver() {
         searchViewModel.historyList.observe(viewLifecycleOwner) { searchHistorySet ->
-            historyListAdapter.submitList(searchHistorySet.map {
-                it.toHistoryItem()
-            })
+            historyListAdapter.submitList(
+                searchHistorySet.map {
+                    it.toHistoryItem()
+                }.sortedByDescending {
+                    it.lastAccessedTime
+                }
+            )
         }
 
         searchViewModel.searchBookList.observe(viewLifecycleOwner) {
