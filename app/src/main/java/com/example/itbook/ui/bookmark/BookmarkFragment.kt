@@ -18,7 +18,6 @@ import com.example.itbook.ui.bookmark.list.BookmarkAdapter
 import com.example.itbook.ui.bookmark.model.toBookmarkItem
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class BookmarkFragment : Fragment() {
 

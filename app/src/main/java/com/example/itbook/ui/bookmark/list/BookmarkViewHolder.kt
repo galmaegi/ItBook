@@ -1,7 +1,7 @@
 package com.example.itbook.ui.bookmark.list
 
-import android.app.ActivityOptions
 import android.content.Context
+import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.itbook.common.extensions.getActivityContext
 import com.example.itbook.common.extensions.getCompressedRawBitmap
@@ -18,7 +18,7 @@ class BookmarkViewHolder(
         binding.bookItem = item
         binding.root.setOnClickListener {
             val options = context.getActivityContext()?.let {
-                ActivityOptions.makeSceneTransitionAnimation(
+                ActivityOptionsCompat.makeSceneTransitionAnimation(
                     it,
                     binding.image,
                     binding.image.transitionName
@@ -32,7 +32,8 @@ class BookmarkViewHolder(
                     item.price,
                     item.image,
                     item.url,
-                    binding.image.getCompressedRawBitmap()
+                    binding.image.getCompressedRawBitmap(),
+                    true
                 ),
                 options?.toBundle()
             )

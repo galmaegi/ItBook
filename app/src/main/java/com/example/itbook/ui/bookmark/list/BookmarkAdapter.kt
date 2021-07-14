@@ -30,6 +30,11 @@ class BookmarkAdapter : ListAdapter<BookmarkItem, BookmarkViewHolder>(BookmarkDi
         this.recyclerView = recyclerView
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        super.onDetachedFromRecyclerView(recyclerView)
+        this.recyclerView = null
+    }
+
     override fun onCurrentListChanged(
         previousList: MutableList<BookmarkItem>,
         currentList: MutableList<BookmarkItem>

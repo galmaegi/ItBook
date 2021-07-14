@@ -45,6 +45,20 @@ class DetailActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        if (detailViewModel.isBookmarked.value == false &&
+            intent.getBooleanExtra(
+                EXTRA_IS_REMOVABLE_FROM_LIST, false
+            )
+        ) {
+            finish()
+            overridePendingTransition(0, android.R.anim.fade_out)
+        } else {
+            finishAfterTransition()
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
         return true
@@ -85,6 +99,7 @@ class DetailActivity : AppCompatActivity() {
         internal const val EXTRA_IMAGE = "extra_image"
         internal const val EXTRA_URL = "extra_url"
         internal const val EXTRA_IMAGE_BITMAP = "extra_image_bitmap"
+        internal const val EXTRA_IS_REMOVABLE_FROM_LIST = "extra_is_removable_from_list"
 
         fun Context.getDetailActivityIntent(
             title: String,
@@ -93,7 +108,8 @@ class DetailActivity : AppCompatActivity() {
             price: String,
             image: String,
             url: String,
-            imageBitmap: ByteArray? = null
+            imageBitmap: ByteArray? = null,
+            isRemovableFromList: Boolean = false
         ) = Intent(this, DetailActivity::class.java).apply {
             putExtra(EXTRA_TITLE, title)
             putExtra(EXTRA_SUBTITLE, subtitle)
@@ -102,6 +118,7 @@ class DetailActivity : AppCompatActivity() {
             putExtra(EXTRA_IMAGE, image)
             putExtra(EXTRA_URL, url)
             putExtra(EXTRA_IMAGE_BITMAP, imageBitmap)
+            putExtra(EXTRA_IS_REMOVABLE_FROM_LIST, isRemovableFromList)
         }
     }
 }
