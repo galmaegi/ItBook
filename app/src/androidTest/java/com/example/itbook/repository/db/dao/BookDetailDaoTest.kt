@@ -92,7 +92,7 @@ class BookDetailDaoTest {
     }
 
     @Test
-    fun testIsBookmarked() {
+    fun testIsBookDetailAvailable() {
         runBlocking {
             assertTrue(bookmarkDao.isBookDetailAvailable(bookmarkA.isbn13).first())
             assertTrue(bookmarkDao.isBookDetailAvailable(bookmarkB.isbn13).first())
@@ -101,7 +101,7 @@ class BookDetailDaoTest {
     }
 
     @Test
-    fun testGetAllBookmarks() {
+    fun testGetAllBookDetail() {
         runBlocking {
             assertThat(bookmarkDao.getAllBookDetail().first().size, equalTo(2))
             assertThat(bookmarkDao.getAllBookDetail().first().sortedBy {
@@ -116,6 +116,46 @@ class BookDetailDaoTest {
             assertThat(bookmarkDao.getAllBookDetail().first().sortedBy {
                 it.lastAccessedTime
             }[2], equalTo(bookmarkC))
+        }
+    }
+
+    @Test
+    fun testGetAllBookMarked() {
+        runBlocking {
+            assertThat(bookmarkDao.getAllBookMarked().first().size, equalTo(0))
+            bookmarkDao.updateBookMarked(bookmarkA.isbn13, true)
+            assertThat(bookmarkDao.getAllBookMarked().first().size, equalTo(1))
+        }
+    }
+
+    @Test
+    fun testGetBookDetail() {
+        runBlocking {
+            assertThat(
+                bookmarkDao.getBookDetail(bookmarkA.isbn13).first().isbn13,
+                equalTo(bookmarkA.isbn13)
+            )
+        }
+    }
+
+    @Test
+    fun testIsBookmarked() {
+        runBlocking {
+            assertThat(bookmarkDao.isBookmarked(bookmarkA.isbn13).first(), equalTo(false))
+            bookmarkDao.updateBookMarked(bookmarkA.isbn13, true)
+            assertThat(bookmarkDao.isBookmarked(bookmarkA.isbn13).first(), equalTo(true))
+        }
+    }
+
+    @Test
+    fun testUpdateMemo() {
+        runBlocking {
+            val memoTestString = "123ABC!@#"
+            bookmarkDao.updateMemo(bookmarkA.isbn13, memoTestString)
+            assertThat(
+                bookmarkDao.getBookDetail(bookmarkA.isbn13).first().memo,
+                equalTo(memoTestString)
+            )
         }
     }
 
