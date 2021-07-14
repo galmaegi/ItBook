@@ -5,12 +5,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.itbook.R
 import com.example.itbook.common.extensions.bindImage
 import com.example.itbook.common.extensions.setCompressedRawBitmap
 import com.example.itbook.databinding.ActivityDetailBinding
+import com.example.itbook.ui.detail.memo.MemoDialog
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,6 +21,10 @@ class DetailActivity : AppCompatActivity() {
     private val detailViewModel: DetailViewModel by viewModels()
     private val binding: ActivityDetailBinding by lazy {
         ActivityDetailBinding.inflate(layoutInflater)
+    }
+
+    private val guideToast by lazy {
+        Toast.makeText(this, "Click image to leave memo", Toast.LENGTH_SHORT)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +36,23 @@ class DetailActivity : AppCompatActivity() {
             finish()
             return
         }
+
         val bitmap = intent.getByteArrayExtra(EXTRA_IMAGE_BITMAP)
         if (bitmap != null) {
             binding.image.setCompressedRawBitmap(bitmap)
         } else {
             binding.image.bindImage(detailViewModel.bookmark.image)
         }
+
+        binding.image.setOnClickListener {
+            MemoDialog(this, detailViewModel.bookDetailItem.value?.memo ?: "").apply {
+                onSaveClickListener = {
+                    detailViewModel.updateMemo(it)
+                    Toast.makeText(context, "Saved", Toast.LENGTH_SHORT).show()
+                }
+            }.show()
+        }
+
         detailViewModel.isBookmarked.observe(this) {
             invalidateOptionsMenu()
         }
@@ -43,10 +60,13 @@ class DetailActivity : AppCompatActivity() {
         detailViewModel.bookDetailItem.observe(this) {
             binding.detailItem = it
         }
+
+        guideToast.show()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
+        guideToast.cancel()
         if (detailViewModel.isBookmarked.value == false &&
             intent.getBooleanExtra(
                 EXTRA_IS_REMOVABLE_FROM_LIST, false

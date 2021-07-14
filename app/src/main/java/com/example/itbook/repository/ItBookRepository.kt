@@ -52,6 +52,7 @@ class ItBookRepository @Inject constructor(
             val call = itBookApi.getBooks(isbn13)
             val response = call?.execute()
             response?.body()?.let {
+                insertBookDetail(it.toBookDetail())
                 emit(it.toBookDetail())
             }
         }
@@ -70,8 +71,13 @@ class ItBookRepository @Inject constructor(
 
     fun getAllBookDetail(): Flow<List<BookDetail>> = bookmarkDao.getAllBookDetail()
 
+    fun getAllBookMarked(): Flow<List<BookDetail>> = bookmarkDao.getAllBookMarked()
+
     fun getBookDetail(isbn13: String): Flow<BookDetail> =
         bookmarkDao.getBookDetail(isbn13)
+
+    fun isBookmarked(isbn13: String): Flow<Boolean> =
+        bookmarkDao.isBookmarked(isbn13)
 
     fun isBookDetailAvailable(isbn13: String): Flow<Boolean> =
         bookmarkDao.isBookDetailAvailable(isbn13)
@@ -82,5 +88,13 @@ class ItBookRepository @Inject constructor(
 
     suspend fun deleteBookDetail(isbn13: String) {
         bookmarkDao.deleteBookDetail(isbn13)
+    }
+
+    suspend fun updateBookMarked(isbn13: String, isBookMarked: Boolean = false) {
+        bookmarkDao.updateBookMarked(isbn13, isBookMarked)
+    }
+
+    suspend fun updateMemo(isbn13: String, memo: String) {
+        bookmarkDao.updateMemo(isbn13, memo)
     }
 }

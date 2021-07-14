@@ -22,8 +22,10 @@ data class BookDetailItem(
     val url: String = "",
     // seems optional
     val pdf: String = "",
+    var memo: String = "",
     // only available when book detail item is in db
-    var lastAccessedTime: Long = 0
+    var lastAccessedTime: Long = 0,
+    val isBookMarked: Boolean = false
 )
 
 fun BookDetail.toBookDetailItem() =
@@ -42,7 +44,9 @@ fun BookDetail.toBookDetailItem() =
         price,
         image,
         url,
-        pdf
+        pdf,
+        memo,
+        isBookMarked = isBookMarked
     )
 
 fun BooksResponse.toBookDetailItem() =

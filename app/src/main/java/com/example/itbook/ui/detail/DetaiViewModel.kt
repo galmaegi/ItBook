@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.example.itbook.repository.ItBookRepository
-import com.example.itbook.repository.db.model.BookDetail
 import com.example.itbook.ui.bookmark.model.BookmarkItem
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_IMAGE
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_ISBN13
@@ -40,7 +39,7 @@ class DetailViewModel @Inject constructor(
         savedStateHandle.get<String>(EXTRA_URL) ?: "",
         System.currentTimeMillis()
     )
-    val isBookmarked = itBookRepository.isBookDetailAvailable(bookmark.isbn13).asLiveData()
+    val isBookmarked = itBookRepository.isBookmarked(bookmark.isbn13).asLiveData()
     val bookDetailItem: LiveData<BookDetailItem> = _bookDetailItem
 
     init {
@@ -53,28 +52,16 @@ class DetailViewModel @Inject constructor(
         }
     }
 
+    fun updateMemo(memo: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            itBookRepository.updateMemo(bookmark.isbn13, memo)
+        }
+    }
+
     fun addBookmark() {
-        bookDetailItem.value?.let {
+        if (isBookmarked.value == false) {
             CoroutineScope(Dispatchers.IO).launch {
-                itBookRepository.insertBookDetail(
-                    BookDetail(
-                        it.title,
-                        it.subtitle,
-                        it.authors,
-                        it.publisher,
-                        it.language,
-                        it.isbn10,
-                        it.isbn13,
-                        it.pages,
-                        it.year,
-                        it.rating,
-                        it.desc,
-                        it.price,
-                        it.image,
-                        it.url,
-                        it.pdf
-                    )
-                )
+                itBookRepository.updateBookMarked(bookmark.isbn13, true)
             }
         }
     }
@@ -82,7 +69,7 @@ class DetailViewModel @Inject constructor(
     fun removeBookmark() {
         if (isBookmarked.value == true) {
             CoroutineScope(Dispatchers.IO).launch {
-                itBookRepository.deleteBookDetail(bookmark.isbn13)
+                itBookRepository.updateBookMarked(bookmark.isbn13, false)
             }
         }
     }

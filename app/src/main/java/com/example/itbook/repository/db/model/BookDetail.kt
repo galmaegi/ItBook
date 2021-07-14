@@ -39,8 +39,12 @@ data class BookDetail(
     // seems optional
     @ColumnInfo(name = "pdf")
     val pdf: String = "",
+    @ColumnInfo(name = "memo")
+    val memo: String = "",
     @ColumnInfo(name = "lastAccessedTime")
-    var lastAccessedTime: Long = System.currentTimeMillis()
+    var lastAccessedTime: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "isBookMarked")
+    val isBookMarked: Boolean = false
 ) {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
