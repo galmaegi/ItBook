@@ -1,5 +1,6 @@
 package com.example.itbook.ui.detail
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
@@ -17,6 +18,7 @@ import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_URL
 import com.example.itbook.ui.detail.model.BookDetailItem
 import com.example.itbook.ui.detail.model.toBookDetailItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -42,7 +44,9 @@ class DetailViewModel @Inject constructor(
     val bookDetailItem: LiveData<BookDetailItem> = _bookDetailItem
 
     init {
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+            Log.d("DetailViewModel", throwable.message.toString())
+        }).launch {
             itBookRepository.getBooks(bookmark.isbn13).collect {
                 _bookDetailItem.postValue(it.toBookDetailItem())
             }

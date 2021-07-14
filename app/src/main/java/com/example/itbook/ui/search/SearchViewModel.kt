@@ -15,6 +15,7 @@ import com.example.itbook.ui.search.model.SearchItem
 import com.example.itbook.ui.search.model.SearchLoadingItem
 import com.example.itbook.ui.search.model.SearchModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -41,31 +42,34 @@ class SearchViewModel @Inject internal constructor(
             _searchBookList.value = emptyList()
         }
         currentJob?.cancel()
-        currentJob = CoroutineScope(Dispatchers.IO).launch {
-            searchBooks(query, page).collect { response: SearchResponse ->
-                Log.d("SearchViewModel", "$response")
-                searchModel = SearchModel(
-                    query, response.total.toInt()
-                ).apply {
-                    currentPage = response.page.toInt()
-                }
-                withContext(Dispatchers.Main) {
-                    if (response.total == "0") {
-                        searchModel?.isEnd = true
-                        notifyLoadEnded()
-                        return@withContext
+        currentJob =
+            CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+                Log.d("SearchViewModel", throwable.message.toString())
+            }).launch {
+                searchBooks(query, page).collect { response: SearchResponse ->
+                    Log.d("SearchViewModel", "$response")
+                    searchModel = SearchModel(
+                        query, response.total.toInt()
+                    ).apply {
+                        currentPage = response.page.toInt()
                     }
-                    val searchBookItemList = response.books.map {
-                        it.toSearchBookItem()
-                    }
-                    if (isSearch) {
-                        setSearchBooksItemList(searchBookItemList)
-                    } else {
-                        addSearchBooksItemList(searchBookItemList)
+                    withContext(Dispatchers.Main) {
+                        if (response.total == "0") {
+                            searchModel?.isEnd = true
+                            notifyLoadEnded()
+                            return@withContext
+                        }
+                        val searchBookItemList = response.books.map {
+                            it.toSearchBookItem()
+                        }
+                        if (isSearch) {
+                            setSearchBooksItemList(searchBookItemList)
+                        } else {
+                            addSearchBooksItemList(searchBookItemList)
+                        }
                     }
                 }
             }
-        }
     }
 
     @MainThread
@@ -94,7 +98,9 @@ class SearchViewModel @Inject internal constructor(
 
     fun addHistory(query: String) {
         val history = SearchHistory(query, System.currentTimeMillis())
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+            Log.d("SearchViewModel", throwable.message.toString())
+        }).launch {
             itBookRepository.insertSearchHistory(history)
         }
     }
@@ -107,7 +113,9 @@ class SearchViewModel @Inject internal constructor(
         _historyList.value?.firstOrNull {
             it.keyword == keyword
         }?.let {
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+                Log.d("SearchViewModel", throwable.message.toString())
+            }).launch {
                 itBookRepository.deleteSearchHistory(keyword)
             }
         }
