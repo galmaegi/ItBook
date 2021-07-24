@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.itbook.repository.ItBookRepository
 import com.example.itbook.repository.db.model.SearchHistory
 import com.example.itbook.repository.network.model.BookItem
@@ -16,7 +17,6 @@ import com.example.itbook.ui.search.model.SearchLoadingItem
 import com.example.itbook.ui.search.model.SearchModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collect
@@ -43,9 +43,9 @@ class SearchViewModel @Inject internal constructor(
         }
         currentJob?.cancel()
         currentJob =
-            CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+            viewModelScope.launch(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
                 Log.d("SearchViewModel", throwable.message.toString())
-            }).launch {
+            }) {
                 searchBooks(query, page).collect { response: SearchResponse ->
                     Log.d("SearchViewModel", "$response")
                     searchModel = SearchModel(
@@ -98,9 +98,9 @@ class SearchViewModel @Inject internal constructor(
 
     fun addHistory(query: String) {
         val history = SearchHistory(query, System.currentTimeMillis())
-        CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+        viewModelScope.launch(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
             Log.d("SearchViewModel", throwable.message.toString())
-        }).launch {
+        }) {
             itBookRepository.insertSearchHistory(history)
         }
     }
@@ -113,9 +113,9 @@ class SearchViewModel @Inject internal constructor(
         _historyList.value?.firstOrNull {
             it.keyword == keyword
         }?.let {
-            CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+            viewModelScope.launch(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
                 Log.d("SearchViewModel", throwable.message.toString())
-            }).launch {
+            }) {
                 itBookRepository.deleteSearchHistory(keyword)
             }
         }

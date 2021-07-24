@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.itbook.repository.ItBookRepository
 import com.example.itbook.ui.bookmark.model.BookmarkItem
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_IMAGE
@@ -18,10 +19,10 @@ import com.example.itbook.ui.detail.model.BookDetailItem
 import com.example.itbook.ui.detail.model.toBookDetailItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,9 +44,9 @@ class DetailViewModel @Inject constructor(
     val bookDetailItem: LiveData<BookDetailItem> = _bookDetailItem
 
     init {
-        CoroutineScope(Dispatchers.IO + CoroutineExceptionHandler { context, throwable ->
+        viewModelScope.launch(Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
             Log.d("DetailViewModel", throwable.message.toString())
-        }).launch {
+        }) {
             itBookRepository.getBooks(bookmark.isbn13).collect {
                 _bookDetailItem.postValue(it.toBookDetailItem())
             }
@@ -53,14 +54,16 @@ class DetailViewModel @Inject constructor(
     }
 
     fun updateMemo(memo: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            itBookRepository.updateMemo(bookmark.isbn13, memo)
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
+                itBookRepository.updateMemo(bookmark.isbn13, memo)
+            }
         }
     }
 
     fun addBookmark() {
         if (isBookmarked.value == false) {
-            CoroutineScope(Dispatchers.IO).launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 itBookRepository.updateBookMarked(bookmark.isbn13, true)
             }
         }
@@ -68,10 +71,9 @@ class DetailViewModel @Inject constructor(
 
     fun removeBookmark() {
         if (isBookmarked.value == true) {
-            CoroutineScope(Dispatchers.IO).launch {
+            viewModelScope.launch(Dispatchers.IO) {
                 itBookRepository.updateBookMarked(bookmark.isbn13, false)
             }
         }
     }
-
 }
