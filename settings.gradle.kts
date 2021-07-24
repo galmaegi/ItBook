@@ -7,5 +7,8 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "ItBook App"
-include(":app")
-include(":ItBookApi")
+
+include(
+    ":app",
+    ":ItBookApi"
+)
