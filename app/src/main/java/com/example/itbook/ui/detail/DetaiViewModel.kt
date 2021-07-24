@@ -42,11 +42,12 @@ class DetailViewModel @Inject constructor(
     )
     val isBookmarked = itBookRepository.isBookmarked(bookmark.isbn13).asLiveData()
     val bookDetailItem: LiveData<BookDetailItem> = _bookDetailItem
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        Log.d("DetailViewModel", throwable.message.toString())
+    }
 
     init {
-        viewModelScope.launch(Dispatchers.IO + CoroutineExceptionHandler { _, throwable ->
-            Log.d("DetailViewModel", throwable.message.toString())
-        }) {
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             itBookRepository.getBooks(bookmark.isbn13).collect {
                 _bookDetailItem.postValue(it.toBookDetailItem())
             }
@@ -54,7 +55,7 @@ class DetailViewModel @Inject constructor(
     }
 
     fun updateMemo(memo: String) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
             withContext(Dispatchers.IO) {
                 itBookRepository.updateMemo(bookmark.isbn13, memo)
             }
@@ -63,7 +64,7 @@ class DetailViewModel @Inject constructor(
 
     fun addBookmark() {
         if (isBookmarked.value == false) {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
                 itBookRepository.updateBookMarked(bookmark.isbn13, true)
             }
         }
@@ -71,7 +72,7 @@ class DetailViewModel @Inject constructor(
 
     fun removeBookmark() {
         if (isBookmarked.value == true) {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch(Dispatchers.IO + coroutineExceptionHandler) {
                 itBookRepository.updateBookMarked(bookmark.isbn13, false)
             }
         }
