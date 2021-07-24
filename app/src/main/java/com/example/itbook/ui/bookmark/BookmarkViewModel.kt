@@ -5,8 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.example.itbook.repository.ItBookRepository
 import com.example.itbook.ui.bookmark.model.BookmarkItem
+import com.example.itbookapi.ItBookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

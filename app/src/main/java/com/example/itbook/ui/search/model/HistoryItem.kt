@@ -1,6 +1,6 @@
 package com.example.itbook.ui.search.model
 
-import com.example.itbook.repository.db.model.SearchHistory
+import com.example.itbookapi.db.model.SearchHistory
 
 data class HistoryItem(
     val keyword: String,

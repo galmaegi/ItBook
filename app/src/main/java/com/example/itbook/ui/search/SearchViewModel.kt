@@ -7,18 +7,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.itbook.repository.ItBookRepository
-import com.example.itbook.repository.db.model.SearchHistory
-import com.example.itbook.repository.network.model.BookItem
-import com.example.itbook.repository.network.model.SearchResponse
 import com.example.itbook.ui.search.model.SearchBookItem
 import com.example.itbook.ui.search.model.SearchItem
 import com.example.itbook.ui.search.model.SearchLoadingItem
 import com.example.itbook.ui.search.model.SearchModel
+import com.example.itbookapi.ItBookRepository
+import com.example.itbookapi.db.model.SearchHistory
+import com.example.itbookapi.network.model.BookItem
+import com.example.itbookapi.network.model.SearchResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -93,7 +94,7 @@ class SearchViewModel @Inject internal constructor(
         }
     }
 
-    private suspend fun searchBooks(query: String, page: Int = 0) =
+    private suspend fun searchBooks(query: String, page: Int = 0): Flow<SearchResponse> =
         itBookRepository.searchBooks(query, page)
 
     fun addHistory(query: String) {

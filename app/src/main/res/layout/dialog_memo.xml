@@ -17,12 +17,12 @@
         android:id="@+id/memo_edittext"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        app:layout_constraintVertical_bias="0"
+        android:text="@{memo}"
         app:layout_constraintBottom_toTopOf="@id/save_button"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@{memo}" />
+        app:layout_constraintVertical_bias="0" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/save_button"

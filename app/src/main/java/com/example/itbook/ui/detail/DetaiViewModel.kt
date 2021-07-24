@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.itbook.repository.ItBookRepository
 import com.example.itbook.ui.bookmark.model.BookmarkItem
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_IMAGE
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_ISBN13
@@ -17,6 +16,7 @@ import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_TITLE
 import com.example.itbook.ui.detail.DetailActivity.Companion.EXTRA_URL
 import com.example.itbook.ui.detail.model.BookDetailItem
 import com.example.itbook.ui.detail.model.toBookDetailItem
+import com.example.itbookapi.ItBookRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers

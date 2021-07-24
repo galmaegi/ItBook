@@ -1,5 +1,5 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
     id("dagger.hilt.android.plugin")
     kotlin("kapt")
@@ -10,7 +10,6 @@ android {
     buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId = "com.example.itbook"
         minSdk = 21
         targetSdk = 30
         versionCode = 1
@@ -57,8 +56,6 @@ android {
 }
 
 dependencies {
-
-    implementation(project(mapOf("path" to ":ItBookApi")))
 
     implementation("androidx.core:core-ktx:1.6.0")
     implementation("androidx.appcompat:appcompat:1.3.0")

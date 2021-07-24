@@ -5,9 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.itbook.repository.ItBookRepository
-import com.example.itbook.repository.network.model.BookItem
 import com.example.itbook.ui.newitem.model.NewItem
+import com.example.itbookapi.ItBookRepository
+import com.example.itbookapi.network.model.BookItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers

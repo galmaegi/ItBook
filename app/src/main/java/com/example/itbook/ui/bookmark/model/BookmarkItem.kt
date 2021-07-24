@@ -1,7 +1,7 @@
 package com.example.itbook.ui.bookmark.model
 
-import com.example.itbook.repository.db.model.BookDetail
 import com.example.itbook.ui.common.booklist.model.BookListItem
+import com.example.itbookapi.db.model.BookDetail
 
 data class BookmarkItem(
     override val title: String,

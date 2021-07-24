@@ -1,8 +1,6 @@
 package com.example.itbook.ui.detail.model
 
-import com.example.itbook.repository.db.model.BookDetail
-import com.example.itbook.repository.network.model.BooksResponse
-import com.google.gson.JsonObject
+import com.example.itbookapi.db.model.BookDetail
 
 data class BookDetailItem(
     val title: String = "",
@@ -48,31 +46,3 @@ fun BookDetail.toBookDetailItem() =
         memo,
         isBookMarked = isBookMarked
     )
-
-fun BooksResponse.toBookDetailItem() =
-    BookDetailItem(
-        title,
-        subtitle,
-        authors,
-        publisher,
-        language,
-        isbn10,
-        isbn13,
-        pages,
-        year,
-        rating,
-        desc,
-        price,
-        image,
-        url,
-        pdf.toJoinedString()
-    )
-
-fun JsonObject?.toJoinedString(): String {
-    if (this == null) {
-        return ""
-    }
-    return keySet().asSequence().map {
-        it + " : " + this.get(it).asString
-    }.joinToString("\n")
-}
