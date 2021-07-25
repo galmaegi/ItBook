@@ -61,8 +61,7 @@ android {
 }
 
 dependencies {
-
-    implementation("com.example.itbookapi:itbookapi:1.0.0")
+    implementation(ItBookApi.IT_BOOK_API)
 
     implementation(SupportLibs.ANDROID_MATERIAL)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)

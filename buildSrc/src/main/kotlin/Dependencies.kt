@@ -28,6 +28,7 @@ object Versions {
     const val HILT = "2.37"
 
     const val JUNIT = "4.13.2"
+    const val IT_BOOK_API = "1.0.0"
 }
 
 object SupportLibs {
@@ -91,4 +92,8 @@ object Hilt {
 
 object JUnit {
     const val JUNIT = "junit:junit:${Versions.JUNIT}"
+}
+
+object ItBookApi {
+    const val IT_BOOK_API = "com.example.itbookapi:itbookapi:${Versions.IT_BOOK_API}"
 }
