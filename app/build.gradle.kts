@@ -62,10 +62,7 @@ android {
 
 dependencies {
 
-//    implementation(project(":ItBookApi"))
-    implementation("com.example.itbookapi:ItBookApi:1.0.0")
-//    implementation(files("lib/ItBookApi-debug.aar"))
-
+    implementation("com.example.itbookapi:itbookapi:1.0.0")
 
     implementation(SupportLibs.ANDROID_MATERIAL)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)

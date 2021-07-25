@@ -82,7 +82,7 @@ publishing {
         create<MavenPublication>("library") {
             run {
                 groupId = "com.example.itbookapi"
-                artifactId = artifactId
+                artifactId = "itbookapi"
                 version = "1.0.0"
 
                 artifact("${buildDir}/outputs/aar/${artifactId}-debug.aar")

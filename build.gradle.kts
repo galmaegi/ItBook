@@ -17,3 +17,23 @@ buildscript {
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
+
+project(":app") {
+    val shouldBuildApi: Boolean =
+        (rootProject.properties["buildItBookApi"] as? String).toBoolean()
+
+    print("shouldBuildApi ${shouldBuildApi}")
+
+    if (shouldBuildApi) {
+        configurations.all {
+            exclude("com.example.itbookapi", "itbookapi")
+        }
+
+        pluginManager.withPlugin("com.android.application") {
+            val implementation by configurations
+            dependencies {
+                implementation(project(":ItBookApi"))
+            }
+        }
+    }
+}
