@@ -21,12 +21,16 @@ android {
 
     buildTypes {
         getByName("debug") {
-            debuggable(true)
+            isDebuggable = true
             isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         getByName("release") {
-            debuggable(false)
+            isDebuggable = false
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -58,7 +62,10 @@ android {
 
 dependencies {
 
-    implementation(project(":ItBookApi"))
+//    implementation(project(":ItBookApi"))
+    implementation("com.example.itbookapi:ItBookApi:1.0.0")
+//    implementation(files("lib/ItBookApi-debug.aar"))
+
 
     implementation(SupportLibs.ANDROID_MATERIAL)
     implementation(SupportLibs.ANDROIDX_CORE_KTX)

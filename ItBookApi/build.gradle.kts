@@ -2,6 +2,7 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("dagger.hilt.android.plugin")
+    id("maven-publish")
     kotlin("kapt")
 }
 
@@ -12,20 +13,21 @@ android {
     defaultConfig {
         minSdk = Sdk.MIN_SDK_VERSION
         targetSdk = Sdk.TARGET_SDK_VERSION
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         getByName("debug") {
-            debuggable(true)
             isMinifyEnabled = false
+            consumerProguardFiles("consumer-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
 
         getByName("release") {
-            debuggable(false)
             isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -48,10 +50,6 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
-    }
-    buildFeatures {
-        viewBinding = true
-        dataBinding = true
     }
 }
 
@@ -77,4 +75,28 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("library") {
+            run {
+                groupId = "com.example.itbookapi"
+                artifactId = artifactId
+                version = "1.0.0"
+
+                artifact("${buildDir}/outputs/aar/${artifactId}-debug.aar")
+                pom.withXml {
+                    val dependenciesNode = asNode().appendNode("dependencies")
+                    configurations.implementation.get().allDependencies.forEach {
+                        dependenciesNode.appendNode("dependency").apply {
+                            appendNode("groupId", it.group)
+                            appendNode("artifactId", it.name)
+                            appendNode("version", it.version)
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.itbook.di
+package com.example.itbookapi.di
 
 import android.content.Context
 import com.example.itbookapi.db.AppDatabase

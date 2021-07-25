@@ -2,9 +2,11 @@
 buildscript {
     val kotlin_version by extra("1.5.10")
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
     }
+
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.20")

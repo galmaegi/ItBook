@@ -21,7 +21,6 @@ object Versions {
     const val ANDROID_ARCH_CORE = "2.1.0"
     const val ANDROIDX_TEST_JUNIT = "1.1.3"
 
-
     const val GLIDE = "4.12.0"
     const val RETROFIT = "2.9.0"
     const val OKHTTP3 = "4.9.1"

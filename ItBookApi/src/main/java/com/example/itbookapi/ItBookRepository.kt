@@ -1,6 +1,7 @@
 package com.example.itbookapi
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.annotation.WorkerThread
 import com.example.itbookapi.db.dao.BookDetailDao
 import com.example.itbookapi.db.dao.SearchHistoryDao
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Keep
 @Singleton
 class ItBookRepository @Inject internal constructor(
     private val searchHistoryDao: SearchHistoryDao,

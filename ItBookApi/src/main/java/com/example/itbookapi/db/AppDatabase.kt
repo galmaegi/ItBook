@@ -1,6 +1,7 @@
 package com.example.itbookapi.db
 
 import android.content.Context
+import androidx.annotation.Keep
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -9,6 +10,7 @@ import com.example.itbookapi.db.dao.SearchHistoryDao
 import com.example.itbookapi.db.model.BookDetail
 import com.example.itbookapi.db.model.SearchHistory
 
+@Keep
 @Database(entities = [SearchHistory::class, BookDetail::class], version = 1, exportSchema = false)
 internal abstract class AppDatabase : RoomDatabase() {
     abstract fun getSearchHistoryDao(): SearchHistoryDao
