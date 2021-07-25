@@ -56,7 +56,12 @@ class ItBookRepository @Inject internal constructor(
             val response = call?.execute()
             response?.body()?.let {
                 insertBookDetail(it.toBookDetail())
-                emit(it.toBookDetail())
+                val cachedBookDetail = getBookDetailCached(isbn13)
+                if (cachedBookDetail.firstOrNull() != null) {
+                    emitAll(cachedBookDetail)
+                } else {
+                    emit(it.toBookDetail())
+                }
             }
         }
     }
